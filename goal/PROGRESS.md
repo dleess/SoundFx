@@ -32,6 +32,19 @@ node --test (저장소 루트, 머지 후 통합)  → tests 26, pass 26, fail 0
 node --check extension/*.js → 전부 통과
 manifest.json JSON 유효성 → 통과
 
+런타임 자동 검증 (Chrome for Testing 151 + CDP, 2026-08-09):
+- 로컬 테스트 페이지: 체인 연결 + 워클릿 삽입 로그 확인
+- YouTube(watch): 체인 연결 + 워클릿 삽입, 무음 아님(MSE 가정 검증)
+- popup: 렌더링 정상(슬라이더 8개, 겹침 없음), storage.sync 왕복 통과
+  → goal/screenshots/popup.png
+- CORS taint 재현(크로스오리진 tone.wav): Chrome이 "outputs zeroes due to
+  CORS" 로그 → 2.1초 후 바이패스 발동 확인
+- 발견·수정: 바이패스 감시 오프바이원(워밍업 tick 미고려로 판정 불가) → +1 수정
+- 알려진 한계: windowMs(2s)보다 짧은 loop 미디어는 currentTime 되감김으로
+  카운트가 리셋되어 bypass 미발동 (silence-detector.js에 ponytail 주석)
+- 참고: 브랜드 Chrome 151은 --load-extension 미지원 → 검증은 Chrome for
+  Testing 사용. 수동 설치는 chrome://extensions 개발자 모드로 가능.
+
 참고: 이 환경의 nvm node v24.14.1에서 `node --test <디렉터리>` 위치 인자는
 Node 자체 버그로 실패(저장소와 무관, 빈 디렉터리에서도 재현).
 VALIDATION.md의 필수 검증 명령을 `node --test`(루트 자동 탐색)로 확정함.
