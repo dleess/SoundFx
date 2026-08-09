@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SoundFx",
   "version": "0.1.0",
-  "description": "Normalizes loudness across all sites — quiet songs get louder, loud songs get tamed. With equalizer-grade controls.",
+  "description": "Normalizes loudness across all sites — quiet songs get louder, loud songs get tamed. Equalizer-grade controls.",
   "permissions": ["storage"],
   "icons": {
     "16": "icons/icon16.png",
