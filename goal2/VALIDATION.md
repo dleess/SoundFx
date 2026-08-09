@@ -32,8 +32,8 @@ xcodebuild -project safari/sound/sound.xcodeproj -scheme "sound (iOS)" -destinat
 | converter로 Xcode 프로젝트 생성·커밋 | 빌드 명령 | 통과 (M1) |
 | macOS 앱+확장 빌드 통과 | xcodebuild (macOS) | 통과 (M1, 서명 없이 BUILD SUCCEEDED) |
 | macOS Safari 실기 동작 (체인·워클릿·팝업) | 수동 1~3 | 대기 |
-| iOS 시뮬레이터 빌드·설치·활성화 | xcodebuild (iOS) + 수동 4 | 대기 |
-| iOS Safari 동작 확인·한계 기록 | 수동 4~5 | 대기 |
+| iOS 시뮬레이터 빌드·설치·활성화 | xcodebuild (iOS) + 수동 4 | 통과 (M3) |
+| iOS Safari 동작 확인·한계 기록 | 수동 4~5 | 통과 (M3) |
 | Chrome 패리티 유지 | node --test + 수동 6 | 대기 |
 
 ## 완료로 보지 않는 조건

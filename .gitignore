@@ -2,6 +2,8 @@
 
 # Xcode build artifacts (safari/ Xcode 프로젝트)
 DerivedData/
+DerivedData-ios/
+DerivedData-macos/
 xcuserdata/
 *.xcuserstate
 *.xcscmblueprint
