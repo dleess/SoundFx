@@ -1,7 +1,7 @@
 # 볼륨 정규화 앱 설계 (가칭 "sound")
 
 날짜: 2026-08-09
-상태: 1단계(브라우저 확장) 완료 — 2단계 Safari 포팅 대기
+상태: 1·2단계 완료 (Chrome/Firefox 확장 + Safari macOS/iOS 포팅) — 3단계 Android 대기
 
 ## 문제
 
