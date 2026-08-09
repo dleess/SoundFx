@@ -2,10 +2,10 @@
 
 ## 필수 검증
 
-골 완료로 마크하기 전 다음 명령을 반드시 실행한다.
+골 완료로 마크하기 전 다음 명령을 반드시 실행한다. (저장소 루트에서 실행 — `node --test <디렉터리>` 형태는 현 환경 Node v24.14.1 버그로 실패하여 자동 탐색 방식으로 확정)
 
 ```bash
-node --test extension/tests/
+node --test
 ```
 
 ## 마일스톤별 검증
@@ -13,7 +13,7 @@ node --test extension/tests/
 각 마일스톤 종료 시 실행한다.
 
 ```bash
-node --test extension/tests/
+node --test
 # + 아래 수동 확인 절차 중 해당 마일스톤 항목
 ```
 
