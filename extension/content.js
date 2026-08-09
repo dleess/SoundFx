@@ -36,10 +36,35 @@
     lowShelf.connect(mid);
     mid.connect(highShelf);
     highShelf.connect(compressor);
-    // M2: normalizer.worklet.js 연결 지점 — compressor와 gainNode 사이에
-    // AudioWorkletNode(ctx, 'normalizer-processor')를 삽입한다.
-    // (ctx.audioWorklet.addModule(chrome.runtime.getURL('normalizer.worklet.js')) 이후 연결)
+    // === M2: 자동 라우드니스 정규화 ===
+    // addModule은 비동기라 우선 compressor→gainNode로 이어 두고, 모듈이 로드되면
+    // 그 사이에 워클릿을 끼워 넣는다. 실패하면 체인은 그대로라 소리는 계속 난다.
     compressor.connect(gainNode);
+
+    // M3의 applySettings가 호출할 수 있도록 전역 노출한다.
+    // ponytail: buildChain마다 재정의(동일 함수). 신경 쓰이면 IIFE 스코프로 올릴 것.
+    function updateWorklet(chain) {
+      if (!chain || !chain.workletNode || !chain.settings) return;
+      const { targetLufs, enabled } = chain.settings;
+      chain.workletNode.port.postMessage({ targetLufs, enabled });
+    }
+    window.__soundUpdateWorklet = updateWorklet;
+
+    ctx.audioWorklet
+      .addModule(chrome.runtime.getURL('normalizer.worklet.js'))
+      .then(() => {
+        const chain = chains.get(mediaEl);
+        if (!chain) return;
+        const workletNode = new AudioWorkletNode(ctx, 'normalizer-processor');
+        compressor.disconnect(gainNode);
+        compressor.connect(workletNode);
+        workletNode.connect(gainNode);
+        chain.workletNode = workletNode;
+        updateWorklet(chain);
+      })
+      .catch((err) => {
+        console.warn('[sound] normalizer 워클릿 로드 실패 — 정규화 없이 재생', err);
+      });
     gainNode.connect(ctx.destination);
 
     const chain = { ctx, mediaEl, source, eq: { lowShelf, mid, highShelf }, compressor, gainNode };
