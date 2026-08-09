@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "sound",
+  "version": "0.1.0",
+  "description": "모든 사이트의 video/audio 라우드니스를 자동 정규화하고 EQ급 세밀 조절을 제공합니다.",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["gain-logic.js", "normalizer.worklet.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
