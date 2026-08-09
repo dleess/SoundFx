@@ -70,7 +70,8 @@
     const chain = { ctx, mediaEl, source, eq: { lowShelf, mid, highShelf }, compressor, gainNode };
     chains.set(mediaEl, chain);
 
-    // M4: 무음 감지 바이패스 지점
+    // M4: 무음 감지 바이패스 지점 — 비동기 감시이므로 await하지 않는다(재생을 막지 않음).
+    // 판정 결과는 chain.bypassed에 기록된다.
     checkSilenceAndBypass(chain);
 
     return chain;
@@ -86,7 +87,75 @@
 
   // M4가 채운다: gainNode 출력이 지속적으로 무음이면(CORS taint 등) mediaEl을 체인에서
   // 우회시켜 원본 재생(destination 미경유)으로 되돌린다.
-  function checkSilenceAndBypass(chain) {
+  async function checkSilenceAndBypass(chain) {
+    const WINDOW_MS = 2000; // 재생 시작 후 감시할 총 시간
+    const CHECK_INTERVAL_MS = 100; // 분석 주기 — WINDOW_MS/CHECK_INTERVAL_MS = 20회 검사
+    const THRESHOLD = 1e-6; // 무음 판정 진폭 임계값(부동소수 잡음 여유)
+
+    const { ctx, mediaEl, source, gainNode } = chain;
+
+    let detector;
+    try {
+      const mod = await import(chrome.runtime.getURL('silence-detector.js'));
+      detector = mod.createSilenceDetector({
+        windowMs: WINDOW_MS,
+        threshold: THRESHOLD,
+        checkIntervalMs: CHECK_INTERVAL_MS,
+      });
+    } catch (err) {
+      console.warn('[sound] 무음 감지 모듈 로드 실패 — 바이패스 감시를 건너뜁니다', err);
+      return;
+    }
+
+    // gainNode 뒤에 분석용 AnalyserNode를 병렬로 탭 연결한다(destination 경로는 그대로 유지).
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 2048;
+    gainNode.connect(analyser);
+    const buffer = new Float32Array(analyser.fftSize);
+
+    let checksLeft = detector.requiredConsecutive; // WINDOW_MS 동안의 최대 검사 횟수
+
+    const timer = setInterval(() => {
+      if (chain.bypassed) {
+        clearInterval(timer);
+        analyser.disconnect();
+        return;
+      }
+
+      analyser.getFloatTimeDomainData(buffer);
+      const { bypass } = detector.sample({
+        buffer,
+        paused: mediaEl.paused,
+        muted: mediaEl.muted,
+        currentTime: mediaEl.currentTime,
+      });
+
+      if (bypass) {
+        clearInterval(timer);
+        analyser.disconnect();
+        // MediaElementSource는 한 번 만들면 해제 불가 — "체인 우회 직결"만 가능하다.
+        // (원래 필터/컴프레서 체인으로의 복귀가 아니라 source→destination 우회 연결이다.)
+        try {
+          source.disconnect();
+        } catch (err) {
+          // 이미 끊겼거나 연결된 적 없음 — 무시
+        }
+        source.connect(ctx.destination);
+        chain.bypassed = true;
+        console.warn(
+          '[sound] CORS taint로 추정되는 무음이 감지되어 오디오 체인을 우회(원본 직결)했습니다. ' +
+            '한계: 원본 미디어 자체가 taint된 상태라면 스펙상 직결해도 destination 출력이 ' +
+            '계속 무음일 수 있습니다(Web Audio가 원천적으로 해결할 수 없는 CORS 제약).'
+        );
+        return;
+      }
+
+      if (--checksLeft <= 0) {
+        // 판정 없이 감시 기간 종료 — 정상 재생으로 간주하고 타이머 정리
+        clearInterval(timer);
+        analyser.disconnect();
+      }
+    }, CHECK_INTERVAL_MS);
   }
 
   function handlePlay(mediaEl) {
