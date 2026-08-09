@@ -1,48 +1,47 @@
-# HANDOFF: SoundFx — 볼륨 정규화 앱, 전 플랫폼 구현·검증 완료. 남은 것: 스토어 배포 + 실기기 검증
+# HANDOFF: SoundFx — 3-스토어 배포 진행: Chrome/iOS 심사 중, Play 내부 테스트 게시. 남은 것: 심사 대응 + Play 프로덕션 경로 + 실기기 검증
 
-**Written:** 2026-08-09 · **Working dir:** `/Users/donghanlee/work/projects/SoundFx` · **Branch:** `main` (원격 없음 — 이번 세션에서 GitHub 생성 예정)
+**Written:** 2026-08-09 · **Working dir:** `/Users/donghanlee/work/projects/SoundFx` · **Branch:** `main` (origin: github.com/dleess/SoundFx)
 
 ## Goal
-YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱. "done" = plan.md의 3단계 전부 + 리브랜딩 완료 상태 — **이미 도달함**. 후속 작업의 done = (1) 원하는 스토어에 배포, (2) 실기기에서 YouTube 앱 세션 브로드캐스트 검증.
+YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱. 코드/검증은 이전 세션에서 완료. 이번 세션의 목표였던 스토어 배포는 제출 가능한 데까지 완료. 후속 done = (1) 3개 스토어 심사 통과·공개, (2) 실기기 YouTube 세션 브로드캐스트 검증.
 
 ## Status
-코드 100% 완료·검증됨. 배포 0%. 실기기 검증 0% (에뮬레이터 검증은 완료).
-
-- 1단계 Chrome/Firefox 확장 (`extension/`): 완료. 실곡 측정 원본 15.4dB 차이 → 출력 0.2dB. 사용자 청감 확인됨.
-- 2단계 Safari (`safari/SoundFx/`): 완료. macOS 청감 확인, iOS 시뮬레이터 Web Inspector 로그 확인.
-- 3단계 Android (`android/`): 완료. 에뮬레이터 E2E — `dumpsys media.audio_flinger`에서 이펙트 Enabled y/n이 토글과 1:1 일치.
-- 리브랜딩(SoundFx, 영어 UI, Okabe-Ito 색, 아이콘): 완료, 전 플랫폼 스모크 재검증됨.
+- **Chrome 웹스토어**: 심사 제출됨. 계정 lee.donghan. zip은 `extension/`에서 manifest+JS+popup+icons만 패키징 (tests/package.json 제외).
+- **App Store (iOS)**: v1.0 (build 1) `WAITING_FOR_REVIEW`. 앱 ID **6799607827**, bundle id `com.donghan.soundfx`(+`.Extension`), 스토어명 "SoundFx: Volume Normalizer" ("SoundFx" 단독은 선점됨). 통지: kbsi.bionmr@gmail.com.
+- **Play 스토어**: 내부 테스트 트랙 Active, v0.1.0 (versionCode 1). 앱명 "SoundFx: Volume Normalizer", applicationId `com.donghan.soundfx`. 테스터: lee.donghan, kbsi.bionmr. **프로덕션 불가: 개인 계정 정책상 비공개 테스트(12+명, 14일) 후 프로덕션 액세스 신청 필요.** 스토어 등록정보·콘텐츠 등급·데이터 보안 설문도 아직 미완 (앱명이 임시 표시되는 이유).
+- **macOS Safari 확장**: 미배포 (iOS만 제출됨).
+- 커밋 메시지 전체 영어화(히스토리 재작성), README/PRIVACY.md 추가됨.
 
 ## What worked
-- 확장 검증: Chrome for Testing(브랜드 Chrome 151은 `--load-extension` 미지원!) + CDP. 상세는 메모리 `chrome-extension-testing.md`와 `goal/PROGRESS.md`. **[still applied]**
-- macOS Safari 확장 등록: DerivedData 경로 앱은 pluginkit 등록이 안 됨 → `~/Applications/SoundFx.app`으로 복사 후 실행하면 등록됨. 현재 설치·등록돼 있음. **[still applied]**
-- Android 이펙트: `DynamicsProcessing`을 세션 브로드캐스트(`ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION`) 수신으로 attach, 세션 없으면 session 0 폴백 (`android/.../audio/SessionRegistry.kt`의 `targets()`가 유일한 폴백 지점). **[still applied]**
-- 빌드 환경: `export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=$HOME/Library/Android/sdk` 필수. `android/local.properties`는 gitignore라 새 클론엔 없음. **[still applied]**
+- **App Store Connect API로 거의 전부 자동화 가능**: bundle id 등록, 프로파일 생성, 버전 메타데이터, 스크린샷 업로드(reserve→PUT→commit MD5), 연령등급, 가격(free는 local id `${price1}` 필요), 심사 제출(reviewSubmissions 플로우). 키: `~/.appstoreconnect/private_keys/AuthKey_CGV9U72GU7.p8`, Issuer `9c0e6248-43c6-405d-8c0b-943a8e02ec61`, 팀 `6536ULS8SC`. PyJWT venv 만들어 사용. **[still applied]**
+- 서명: Xcode cloud signing 권한 없어도 API로 IOS_APP_STORE 프로파일 2개 만들어 수동 서명 export 가능 (ExportOptions.plist에 provisioningProfiles 명시). 배포 인증서는 키체인에 있음 (팀 6536ULS8SC). **[still applied]**
+- 심사 연락처는 기존 앱 MolViewApp 것 재사용 (+82 10-58739884, kbsi.bionmr). **[still applied]**
+- Play Console·App Store Connect 웹은 Claude in Chrome 자동화 가능. AAB 업로드는 숨은 file input에 file_upload로 직접 주입. **[still applied]**
 
 ## What didn't work
-- `node --test <디렉터리>` 위치 인자 — 이 머신 Node v24.14.1 자체 버그로 실패. 루트에서 인자 없이 `node --test` 또는 파일 글롭 사용. 재시도 금지.
-- 브랜드 Chrome에 `--load-extension` + `--disable-features=DisableLoadExtensionCommandLineSwitch` — Chrome 151에서 완전 제거됨. 확장은 로드 안 되는데 `chrome-extension://<id>/` URL이 에러 페이지로 열려 로드된 것처럼 보이는 함정 있음(`chrome.runtime` undefined로 구분).
-- 에뮬레이터에서 `adb shell input tap`으로 Material Switch/Slider 조작 — 제스처 임계값 문제로 무시됨. `KEYCODE_TAB` 포커스 + `DPAD_CENTER/RIGHT`로 우회 (버튼류는 tap 정상).
-- 2초짜리 루프 오디오로 CORS 바이패스 테스트 — `currentTime` 되감김이 감지 카운터를 리셋해 절대 발동 안 함. 테스트 톤은 6초 이상으로.
+- **Chrome 웹스토어 대시보드는 확장 자동화 원천 차단** ("The extensions gallery cannot be scripted") — 파일을 Desktop에 준비해 주고 사용자가 직접 업로드해야 함. 재시도 금지.
+- ASC `appDataUsages` API 폐지됨 — 개인정보 신고("Data Not Collected")는 웹 UI로만. 이미 게시 완료라 재작업 불필요.
+- Safari 확장 manifest description 112자 제한 (altool 90849) — 현재 110자로 맞춰져 있음. 늘리지 말 것.
+- `ageRatingDeclarations`는 appStoreVersions가 아닌 **appInfos** 경유, enum 13개+boolean 10개(ageAssurance 포함) 혼재 — 전 필드 한 번에 PATCH해야 함.
+- keytool 등 JDK 도구는 JAVA_HOME 없이 침묵 실패 — `export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=$HOME/Library/Android/sdk` 필수 (기존 함정 재확인).
 
 ## Key files & commands
-- `plan.md` — PRD. 플랫폼 제약과 로드맵의 단일 진실 원천.
-- `extension/` — MV3 확장 (vanilla JS). 테스트: 루트에서 `node --test` (26개). 설정 계약 `{enabled, targetLufs, comp{...}, eq{...}}`은 `settings-logic.js`가 원본.
-- `safari/SoundFx/SoundFx.xcodeproj` — converter 산출물, 리소스는 `extension/`을 참조(복제 없음). 빌드: `xcodebuild -project safari/SoundFx/SoundFx.xcodeproj -scheme "SoundFx (macOS)" build CODE_SIGN_IDENTITY=-`. iOS scheme "SoundFx (iOS)". bundle id `com.donghan.sound.dev` (배포 시 정식 id로 바꿀 것).
-- `android/` — Kotlin. `cd android && ./gradlew test assembleDebug` (JAVA_HOME/ANDROID_HOME 필요). applicationId `com.donghan.sound`.
-- `goal/`, `goal2/`, `goal3/` — 각 단계 골 기록(VALIDATION/PROGRESS에 검증 증거·환경 함정 상세).
-- `assets/icon-1024.png` — 확정 아이콘 원본 (파형/흰배경, Okabe-Ito). 파생: `extension/icons/`, `android/.../mipmap-*/`.
-- AVD: `test36` (`~/Library/Android/sdk/emulator/emulator -avd test36`).
+- **`~/keystores/soundfx-upload.jks`** — Play 업로드 키 (repo 밖!). 비밀번호는 같은 폴더 `soundfx-upload-credentials.txt` + `android/local.properties`의 `RELEASE_*` 3개 (gitignore라 새 클론엔 없음 — credentials.txt에서 복원). **분실 시 Play 업데이트 불가.**
+- Play 빌드: `cd android && ./gradlew test bundleRelease` → `app/build/outputs/bundle/release/app-release.aab`.
+- iOS 빌드: `xcodebuild archive -project safari/SoundFx/SoundFx.xcodeproj -scheme "SoundFx (iOS)" ...` + `build/ExportOptions.plist`(수동 서명, 프로파일명 "SoundFx App Store"/"SoundFx Extension App Store"). 다음 릴리스는 ship 스킬 절차로 버전 bump.
+- Chrome zip 재생성: `cd extension && zip -r SoundFx-<ver>.zip manifest.json *.js popup.html icons` (tests 제외).
+- 스토어 자산: 아이콘 `extension/icons/icon128.png`, iPhone 6.7" 스크린샷은 `goal2/screenshots/` 1206×2622를 1290×2796로 리사이즈해 사용했음. iPad는 레터박스 버전 (심사 지적 시 실캡처 필요).
+- PRIVACY.md — 스토어 공용 개인정보 정책 URL: `https://github.com/dleess/SoundFx/blob/main/PRIVACY.md`.
 
 ## Next steps
-1. (선택한 것부터) Chrome 웹스토어: `extension/`을 zip으로 패키징(`icons/` 포함, tests 제외 가능), 스토어 설명은 manifest description 재활용. 계정 로그인은 사용자.
-2. App Store(Safari): 아이콘은 이미 반영됨. bundle id 정식 확정 + `ship` 스킬 절차 (CLAUDE.md: iOS 릴리스는 ship 스킬, Google Play는 lee.donghan@gmail.com).
-3. Play 스토어: 서명 설정 + `./gradlew bundleRelease` → AAB 업로드.
-4. 실기기 검증: 폰 USB 연결 → `adb install` → YouTube 앱 재생 → `adb logcat -s SoundFx`에서 `broadcast session=` 수신 여부 확인. 미수신이면 session 0 폴백이 실기기에서 동작하는지 확인 (기기별 편차 가능 — plan.md 리스크 참조).
+1. **Chrome/iOS 심사 결과 대응** (각 며칠). 리젝 시 이 문서의 제출 파이프라인 재사용.
+2. **Play 앱 설정 완료**: 대시보드 작업들 — 스토어 등록정보(설명·스크린샷·아이콘 512px), 콘텐츠 등급 설문, 데이터 보안 설문("수집 안 함"), 광고 없음 선언. Play Console 웹 자동화 가능.
+3. **Play 프로덕션 경로**: 테스터 12명 모아 비공개 테스트 14일 → 대시보드에서 프로덕션 액세스 신청.
+4. **실기기 검증**: 폰에서 Play Console → Internal testing → Testers 탭 opt-in 링크로 설치 → YouTube 재생 → `adb logcat -s SoundFx`에서 `broadcast session=` 확인. session 0 폴백 동작 여부가 핵심 리스크.
+5. (선택) macOS Safari 확장 App Store 제출, Firefox AMO 제출.
 
 ## Open questions / risks
-- **YouTube 앱이 세션을 브로드캐스트하는지 실기기 미확인** — 3단계의 마지막 리스크. 미브로드캐스트 + session 0 attach 거부 기기면 Android 앱의 핵심 가치가 제한됨.
-- iOS Safari 확장의 실기기(시뮬레이터 아닌) 동작 unverified — 시뮬레이터에서는 워클릿까지 정상.
-- Safari 배포용 서명/팀 설정은 손대지 않음 (현재 ad-hoc `CODE_SIGN_IDENTITY=-`).
-- `window.__soundUpdateWorklet`/`__soundChains` 등 내부 식별자는 리브랜딩에서 의도적으로 유지 (호환성). 코드 내 한국어 주석도 의도적 유지 (사용자 대상 아님).
-- ponytail 정리 항목 2건 (content.js): `updateWorklet`을 buildChain 밖으로 호이스팅, `chains.set` 몽키패치를 선언부 레지스트리로 단순화 — 동작엔 문제 없음.
+- YouTube 앱 세션 브로드캐스트 실기기 미확인 (이전 세션부터 이어지는 최대 리스크).
+- iPad 스크린샷이 레터박스라 App Store 심사에서 지적 가능 — 그 경우 iPad 시뮬레이터 실캡처로 교체.
+- Play 앱명이 설문 미완으로 임시 표시 중 ("com.donghan.soundfx (unreviewed)").
+- Chrome 확장은 `<all_urls>`라 심사 장기화 가능성 고지받음 — 정상.
