@@ -1,0 +1,1023 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1ABC2E6730284156005903FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E6630284156005903FC /* AppDelegate.swift */; };
+		1ABC2E6930284156005903FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E6830284156005903FC /* SceneDelegate.swift */; };
+		1ABC2E6C30284156005903FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E6A30284156005903FC /* LaunchScreen.storyboard */; };
+		1ABC2E6F30284156005903FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E6D30284156005903FC /* Main.storyboard */; };
+		1ABC2E7830284156005903FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E7730284156005903FC /* AppDelegate.swift */; };
+		1ABC2E7B30284156005903FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E7930284156005903FC /* Main.storyboard */; };
+		1ABC2E8230284156005903FC /* SoundFx Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1ABC2E8130284156005903FC /* SoundFx Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1ABC2E8C30284156005903FC /* SoundFx Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1ABC2E8B30284156005903FC /* SoundFx Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1ABC2E9130284156005903FC /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5630284155005903FC /* Main.html */; };
+		1ABC2E9230284156005903FC /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5630284155005903FC /* Main.html */; };
+		1ABC2E9330284156005903FC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5830284155005903FC /* Icon.png */; };
+		1ABC2E9430284156005903FC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5830284155005903FC /* Icon.png */; };
+		1ABC2E9530284156005903FC /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5930284155005903FC /* Style.css */; };
+		1ABC2E9630284156005903FC /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5930284155005903FC /* Style.css */; };
+		1ABC2E9730284156005903FC /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5A30284155005903FC /* Script.js */; };
+		1ABC2E9830284156005903FC /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5A30284155005903FC /* Script.js */; };
+		1ABC2E9930284156005903FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5B30284155005903FC /* ViewController.swift */; };
+		1ABC2E9A30284156005903FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5B30284155005903FC /* ViewController.swift */; };
+		1ABC2E9B30284156005903FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5C30284156005903FC /* Assets.xcassets */; };
+		1ABC2E9C30284156005903FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5C30284156005903FC /* Assets.xcassets */; };
+		1ABC2E9D30284156005903FC /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5E30284156005903FC /* SafariWebExtensionHandler.swift */; };
+		1ABC2E9E30284156005903FC /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC2E5E30284156005903FC /* SafariWebExtensionHandler.swift */; };
+		1ABC2EBB30284156005903FC /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB030284156005903FC /* popup.js */; };
+		1ABC2EBC30284156005903FC /* silence-detector.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB130284156005903FC /* silence-detector.js */; };
+		1ABC2EBD30284156005903FC /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB230284156005903FC /* popup.html */; };
+		1ABC2EBE30284156005903FC /* tests in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB330284156005903FC /* tests */; };
+		1ABC2EBF30284156005903FC /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB430284156005903FC /* package.json */; };
+		1ABC2EC030284156005903FC /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB530284156005903FC /* icons */; };
+		1ABC2EC130284156005903FC /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB630284156005903FC /* manifest.json */; };
+		1ABC2EC230284156005903FC /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB730284156005903FC /* content.js */; };
+		1ABC2EC330284156005903FC /* normalizer.worklet.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB830284156005903FC /* normalizer.worklet.js */; };
+		1ABC2EC430284156005903FC /* settings-logic.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB930284156005903FC /* settings-logic.js */; };
+		1ABC2EC530284156005903FC /* gain-logic.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EBA30284156005903FC /* gain-logic.js */; };
+		1ABC2EC630284156005903FC /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB030284156005903FC /* popup.js */; };
+		1ABC2EC730284156005903FC /* silence-detector.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB130284156005903FC /* silence-detector.js */; };
+		1ABC2EC830284156005903FC /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB230284156005903FC /* popup.html */; };
+		1ABC2EC930284156005903FC /* tests in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB330284156005903FC /* tests */; };
+		1ABC2ECA30284156005903FC /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB430284156005903FC /* package.json */; };
+		1ABC2ECB30284156005903FC /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB530284156005903FC /* icons */; };
+		1ABC2ECC30284156005903FC /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB630284156005903FC /* manifest.json */; };
+		1ABC2ECD30284156005903FC /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB730284156005903FC /* content.js */; };
+		1ABC2ECE30284156005903FC /* normalizer.worklet.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB830284156005903FC /* normalizer.worklet.js */; };
+		1ABC2ECF30284156005903FC /* settings-logic.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EB930284156005903FC /* settings-logic.js */; };
+		1ABC2ED030284156005903FC /* gain-logic.js in Resources */ = {isa = PBXBuildFile; fileRef = 1ABC2EBA30284156005903FC /* gain-logic.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1ABC2E8330284156005903FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1ABC2E5030284155005903FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1ABC2E8030284156005903FC;
+			remoteInfo = "SoundFx Extension (iOS)";
+		};
+		1ABC2E8D30284156005903FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1ABC2E5030284155005903FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1ABC2E8A30284156005903FC;
+			remoteInfo = "SoundFx Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1ABC2EA430284156005903FC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1ABC2E8230284156005903FC /* SoundFx Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2EAB30284156005903FC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1ABC2E8C30284156005903FC /* SoundFx Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1ABC2E5730284155005903FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		1ABC2E5830284155005903FC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		1ABC2E5930284155005903FC /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		1ABC2E5A30284155005903FC /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		1ABC2E5B30284155005903FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1ABC2E5C30284156005903FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1ABC2E5E30284156005903FC /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		1ABC2E6330284156005903FC /* SoundFx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundFx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ABC2E6630284156005903FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1ABC2E6830284156005903FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		1ABC2E6B30284156005903FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1ABC2E6E30284156005903FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1ABC2E7030284156005903FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ABC2E7530284156005903FC /* SoundFx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundFx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ABC2E7730284156005903FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1ABC2E7A30284156005903FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1ABC2E7C30284156005903FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ABC2E8130284156005903FC /* SoundFx Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SoundFx Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ABC2E8630284156005903FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ABC2E8B30284156005903FC /* SoundFx Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SoundFx Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ABC2E9030284156005903FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ABC2EB030284156005903FC /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../extension/popup.js; sourceTree = "<group>"; };
+		1ABC2EB130284156005903FC /* silence-detector.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "silence-detector.js"; path = "../../../extension/silence-detector.js"; sourceTree = "<group>"; };
+		1ABC2EB230284156005903FC /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../extension/popup.html; sourceTree = "<group>"; };
+		1ABC2EB330284156005903FC /* tests */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tests; path = ../../../extension/tests; sourceTree = "<group>"; };
+		1ABC2EB430284156005903FC /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = ../../../extension/package.json; sourceTree = "<group>"; };
+		1ABC2EB530284156005903FC /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../extension/icons; sourceTree = "<group>"; };
+		1ABC2EB630284156005903FC /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../extension/manifest.json; sourceTree = "<group>"; };
+		1ABC2EB730284156005903FC /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../../extension/content.js; sourceTree = "<group>"; };
+		1ABC2EB830284156005903FC /* normalizer.worklet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = normalizer.worklet.js; path = ../../../extension/normalizer.worklet.js; sourceTree = "<group>"; };
+		1ABC2EB930284156005903FC /* settings-logic.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "settings-logic.js"; path = "../../../extension/settings-logic.js"; sourceTree = "<group>"; };
+		1ABC2EBA30284156005903FC /* gain-logic.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "gain-logic.js"; path = "../../../extension/gain-logic.js"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1ABC2E6030284156005903FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E7230284156005903FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E7E30284156005903FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E8830284156005903FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1ABC2E4F30284155005903FC = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E5430284155005903FC /* Shared (App) */,
+				1ABC2E5D30284156005903FC /* Shared (Extension) */,
+				1ABC2E6530284156005903FC /* iOS (App) */,
+				1ABC2E7630284156005903FC /* macOS (App) */,
+				1ABC2E8530284156005903FC /* iOS (Extension) */,
+				1ABC2E8F30284156005903FC /* macOS (Extension) */,
+				1ABC2E6430284156005903FC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1ABC2E5430284155005903FC /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E5B30284155005903FC /* ViewController.swift */,
+				1ABC2E5C30284156005903FC /* Assets.xcassets */,
+				1ABC2E5530284155005903FC /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		1ABC2E5530284155005903FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E5630284155005903FC /* Main.html */,
+				1ABC2E5830284155005903FC /* Icon.png */,
+				1ABC2E5930284155005903FC /* Style.css */,
+				1ABC2E5A30284155005903FC /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1ABC2E5D30284156005903FC /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2EAF30284156005903FC /* Resources */,
+				1ABC2E5E30284156005903FC /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		1ABC2E6430284156005903FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E6330284156005903FC /* SoundFx.app */,
+				1ABC2E7530284156005903FC /* SoundFx.app */,
+				1ABC2E8130284156005903FC /* SoundFx Extension.appex */,
+				1ABC2E8B30284156005903FC /* SoundFx Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1ABC2E6530284156005903FC /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E6630284156005903FC /* AppDelegate.swift */,
+				1ABC2E6830284156005903FC /* SceneDelegate.swift */,
+				1ABC2E6A30284156005903FC /* LaunchScreen.storyboard */,
+				1ABC2E6D30284156005903FC /* Main.storyboard */,
+				1ABC2E7030284156005903FC /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		1ABC2E7630284156005903FC /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E7730284156005903FC /* AppDelegate.swift */,
+				1ABC2E7930284156005903FC /* Main.storyboard */,
+				1ABC2E7C30284156005903FC /* Info.plist */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		1ABC2E8530284156005903FC /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E8630284156005903FC /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		1ABC2E8F30284156005903FC /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2E9030284156005903FC /* Info.plist */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		1ABC2EAF30284156005903FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1ABC2EB030284156005903FC /* popup.js */,
+				1ABC2EB130284156005903FC /* silence-detector.js */,
+				1ABC2EB230284156005903FC /* popup.html */,
+				1ABC2EB330284156005903FC /* tests */,
+				1ABC2EB430284156005903FC /* package.json */,
+				1ABC2EB530284156005903FC /* icons */,
+				1ABC2EB630284156005903FC /* manifest.json */,
+				1ABC2EB730284156005903FC /* content.js */,
+				1ABC2EB830284156005903FC /* normalizer.worklet.js */,
+				1ABC2EB930284156005903FC /* settings-logic.js */,
+				1ABC2EBA30284156005903FC /* gain-logic.js */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1ABC2E6230284156005903FC /* SoundFx (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ABC2EA530284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx (iOS)" */;
+			buildPhases = (
+				1ABC2E5F30284156005903FC /* Sources */,
+				1ABC2E6030284156005903FC /* Frameworks */,
+				1ABC2E6130284156005903FC /* Resources */,
+				1ABC2EA430284156005903FC /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1ABC2E8430284156005903FC /* PBXTargetDependency */,
+			);
+			name = "SoundFx (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "SoundFx (iOS)";
+			productReference = 1ABC2E6330284156005903FC /* SoundFx.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1ABC2E7430284156005903FC /* SoundFx (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ABC2EAC30284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx (macOS)" */;
+			buildPhases = (
+				1ABC2E7130284156005903FC /* Sources */,
+				1ABC2E7230284156005903FC /* Frameworks */,
+				1ABC2E7330284156005903FC /* Resources */,
+				1ABC2EAB30284156005903FC /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1ABC2E8E30284156005903FC /* PBXTargetDependency */,
+			);
+			name = "SoundFx (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "SoundFx (macOS)";
+			productReference = 1ABC2E7530284156005903FC /* SoundFx.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1ABC2E8030284156005903FC /* SoundFx Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ABC2EA130284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx Extension (iOS)" */;
+			buildPhases = (
+				1ABC2E7D30284156005903FC /* Sources */,
+				1ABC2E7E30284156005903FC /* Frameworks */,
+				1ABC2E7F30284156005903FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SoundFx Extension (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "SoundFx Extension (iOS)";
+			productReference = 1ABC2E8130284156005903FC /* SoundFx Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		1ABC2E8A30284156005903FC /* SoundFx Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ABC2EA830284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx Extension (macOS)" */;
+			buildPhases = (
+				1ABC2E8730284156005903FC /* Sources */,
+				1ABC2E8830284156005903FC /* Frameworks */,
+				1ABC2E8930284156005903FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SoundFx Extension (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "SoundFx Extension (macOS)";
+			productReference = 1ABC2E8B30284156005903FC /* SoundFx Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1ABC2E5030284155005903FC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					1ABC2E6230284156005903FC = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					1ABC2E7430284156005903FC = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					1ABC2E8030284156005903FC = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					1ABC2E8A30284156005903FC = {
+						CreatedOnToolsVersion = 26.6;
+					};
+				};
+			};
+			buildConfigurationList = 1ABC2E5330284155005903FC /* Build configuration list for PBXProject "SoundFx" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1ABC2E4F30284155005903FC;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1ABC2E6430284156005903FC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1ABC2E6230284156005903FC /* SoundFx (iOS) */,
+				1ABC2E7430284156005903FC /* SoundFx (macOS) */,
+				1ABC2E8030284156005903FC /* SoundFx Extension (iOS) */,
+				1ABC2E8A30284156005903FC /* SoundFx Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1ABC2E6130284156005903FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2E9330284156005903FC /* Icon.png in Resources */,
+				1ABC2E6C30284156005903FC /* LaunchScreen.storyboard in Resources */,
+				1ABC2E9130284156005903FC /* Main.html in Resources */,
+				1ABC2E9730284156005903FC /* Script.js in Resources */,
+				1ABC2E9B30284156005903FC /* Assets.xcassets in Resources */,
+				1ABC2E6F30284156005903FC /* Main.storyboard in Resources */,
+				1ABC2E9530284156005903FC /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E7330284156005903FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2E9430284156005903FC /* Icon.png in Resources */,
+				1ABC2E9630284156005903FC /* Style.css in Resources */,
+				1ABC2E7B30284156005903FC /* Main.storyboard in Resources */,
+				1ABC2E9830284156005903FC /* Script.js in Resources */,
+				1ABC2E9C30284156005903FC /* Assets.xcassets in Resources */,
+				1ABC2E9230284156005903FC /* Main.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E7F30284156005903FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2ECF30284156005903FC /* settings-logic.js in Resources */,
+				1ABC2ECE30284156005903FC /* normalizer.worklet.js in Resources */,
+				1ABC2ECD30284156005903FC /* content.js in Resources */,
+				1ABC2EC930284156005903FC /* tests in Resources */,
+				1ABC2ECC30284156005903FC /* manifest.json in Resources */,
+				1ABC2EC730284156005903FC /* silence-detector.js in Resources */,
+				1ABC2EC830284156005903FC /* popup.html in Resources */,
+				1ABC2ECB30284156005903FC /* icons in Resources */,
+				1ABC2EC630284156005903FC /* popup.js in Resources */,
+				1ABC2ECA30284156005903FC /* package.json in Resources */,
+				1ABC2ED030284156005903FC /* gain-logic.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E8930284156005903FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2EC430284156005903FC /* settings-logic.js in Resources */,
+				1ABC2EC330284156005903FC /* normalizer.worklet.js in Resources */,
+				1ABC2EC230284156005903FC /* content.js in Resources */,
+				1ABC2EBE30284156005903FC /* tests in Resources */,
+				1ABC2EC130284156005903FC /* manifest.json in Resources */,
+				1ABC2EBC30284156005903FC /* silence-detector.js in Resources */,
+				1ABC2EBD30284156005903FC /* popup.html in Resources */,
+				1ABC2EC030284156005903FC /* icons in Resources */,
+				1ABC2EBB30284156005903FC /* popup.js in Resources */,
+				1ABC2EBF30284156005903FC /* package.json in Resources */,
+				1ABC2EC530284156005903FC /* gain-logic.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1ABC2E5F30284156005903FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2E9930284156005903FC /* ViewController.swift in Sources */,
+				1ABC2E6730284156005903FC /* AppDelegate.swift in Sources */,
+				1ABC2E6930284156005903FC /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E7130284156005903FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2E9A30284156005903FC /* ViewController.swift in Sources */,
+				1ABC2E7830284156005903FC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E7D30284156005903FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2E9D30284156005903FC /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ABC2E8730284156005903FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ABC2E9E30284156005903FC /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1ABC2E8430284156005903FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1ABC2E8030284156005903FC /* SoundFx Extension (iOS) */;
+			targetProxy = 1ABC2E8330284156005903FC /* PBXContainerItemProxy */;
+		};
+		1ABC2E8E30284156005903FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1ABC2E8A30284156005903FC /* SoundFx Extension (macOS) */;
+			targetProxy = 1ABC2E8D30284156005903FC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1ABC2E5630284155005903FC /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1ABC2E5730284155005903FC /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		1ABC2E6A30284156005903FC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1ABC2E6B30284156005903FC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1ABC2E6D30284156005903FC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1ABC2E6E30284156005903FC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1ABC2E7930284156005903FC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1ABC2E7A30284156005903FC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1ABC2E9F30284156005903FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1ABC2EA030284156005903FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		1ABC2EA230284156005903FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SoundFx Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_NAME = "SoundFx Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1ABC2EA330284156005903FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SoundFx Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_NAME = "SoundFx Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1ABC2EA630284156005903FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SoundFx;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_NAME = SoundFx;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1ABC2EA730284156005903FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SoundFx;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_NAME = SoundFx;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1ABC2EA930284156005903FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SoundFx Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_NAME = "SoundFx Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1ABC2EAA30284156005903FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SoundFx Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_NAME = "SoundFx Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1ABC2EAD30284156005903FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SoundFx;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_NAME = SoundFx;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1ABC2EAE30284156005903FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SoundFx;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_NAME = SoundFx;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1ABC2E5330284155005903FC /* Build configuration list for PBXProject "SoundFx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ABC2E9F30284156005903FC /* Debug */,
+				1ABC2EA030284156005903FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1ABC2EA130284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ABC2EA230284156005903FC /* Debug */,
+				1ABC2EA330284156005903FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1ABC2EA530284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ABC2EA630284156005903FC /* Debug */,
+				1ABC2EA730284156005903FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1ABC2EA830284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ABC2EA930284156005903FC /* Debug */,
+				1ABC2EAA30284156005903FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1ABC2EAC30284156005903FC /* Build configuration list for PBXNativeTarget "SoundFx (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ABC2EAD30284156005903FC /* Debug */,
+				1ABC2EAE30284156005903FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1ABC2E5030284155005903FC /* Project object */;
+}
