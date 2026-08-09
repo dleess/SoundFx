@@ -1,1 +1,7 @@
 .claude/
+
+# Xcode build artifacts (safari/ Xcode 프로젝트)
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint

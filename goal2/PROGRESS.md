@@ -15,16 +15,22 @@
 
 ## 현재 마일스톤
 
-마일스톤 1 시작 전
+마일스톤 1 완료
 
 ## 완료
 
-(없음)
+- 마일스톤 1: `xcrun safari-web-extension-converter`로 `safari/sound/sound.xcodeproj` 생성 (양 플랫폼, Swift). scheme: `sound (macOS)`, `sound (iOS)`. macOS 타깃 `xcodebuild build` 서명 없이(CODE_SIGN_IDENTITY=-, CODE_SIGNING_ALLOWED=NO) 1회차 시도에 `BUILD SUCCEEDED`. iOS 타깃(App+Extension)도 프로젝트에 존재 확인(빌드는 마일스톤 3 범위).
 
 ## 마지막 검증 결과
 
 ```text
-(골 실행 전 — 1단계 기준선: node --test 26/26, Chrome 실기 검증 완료)
+xcodebuild -project safari/sound/sound.xcodeproj -scheme "sound (macOS)" build CODE_SIGN_IDENTITY=- CODE_SIGNING_ALLOWED=NO
+→ ** BUILD SUCCEEDED ** (경고: hardened runtime disabled for ad-hoc codesigning — 예상된 동작, 서명 없이 빌드했으므로)
+
+xcrun safari-web-extension-converter 경고 2건 (비차단):
+- manifest.json is missing icons
+- manifest.json is missing a large icon size
+(extension/manifest.json에 icons 필드 없음 — 1단계 산출물 원본, 이번 마일스톤에서 extension/ 미수정 원칙 준수)
 ```
 
 ## 실패 시도
@@ -38,7 +44,7 @@
 
 ## 다음 단계
 
-PLAN.md의 마일스톤 1부터 시작 (converter 실행 + macOS 빌드)
+PLAN.md의 마일스톤 2 (macOS Safari 실기 검증: 확장 활성화, 체인/워클릿 로그, 팝업 동작)
 
 ## 리스크 / 블로커
 
@@ -46,6 +52,7 @@ PLAN.md의 마일스톤 1부터 시작 (converter 실행 + macOS 빌드)
 - iOS Safari 자동재생 정책으로 시뮬레이터 검증 시 수동 탭 필요할 수 있음
 - 미서명 확장은 Safari 개발 메뉴 허용 필요 — 사용자 머신 설정 개입 가능성
 - iOS 시뮬레이터 탭 좌표는 포인트 단위 (CLAUDE.md gotcha)
+- extension/manifest.json에 icons 미정의 → converter가 앱 아이콘 자동 생성 실패(경고, 빌드는 통과). App Store 단계(이 골 범위 밖)에서 아이콘 리소스 추가 필요할 수 있음.
 
 ## 인수인계 메모
 
