@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sound</string>
+    <string name="app_name">SoundFx</string>
 
-    <string name="label_enabled">켜짐</string>
-    <string name="label_target">타깃 라우드니스</string>
-    <string name="label_compressor">컴프레서</string>
-    <string name="label_comp_threshold">threshold</string>
-    <string name="label_comp_ratio">ratio</string>
-    <string name="label_comp_attack">attack</string>
-    <string name="label_comp_release">release</string>
+    <string name="label_enabled">Enabled</string>
+    <string name="label_target">Target loudness</string>
+    <string name="label_compressor">Compressor</string>
+    <string name="label_comp_threshold">Threshold</string>
+    <string name="label_comp_ratio">Ratio</string>
+    <string name="label_comp_attack">Attack</string>
+    <string name="label_comp_release">Release</string>
     <string name="label_eq">EQ</string>
-    <string name="label_eq_low">low</string>
-    <string name="label_eq_mid">mid</string>
-    <string name="label_eq_high">high</string>
-    <string name="btn_test_quiet">조용한 톤</string>
-    <string name="btn_test_loud">시끄러운 톤</string>
-    <string name="status_running">서비스 상태: 실행 중</string>
-    <string name="status_stopped">서비스 상태: 중지됨</string>
+    <string name="label_eq_low">Low</string>
+    <string name="label_eq_mid">Mid</string>
+    <string name="label_eq_high">High</string>
+    <string name="btn_test_quiet">Play quiet tone</string>
+    <string name="btn_test_loud">Play loud tone</string>
+    <string name="status_running">Service status: running</string>
+    <string name="status_stopped">Service status: stopped</string>
+
+    <string name="notification_channel_name">Volume Normalization</string>
+    <string name="notification_content_title">SoundFx is normalizing volume</string>
 </resources>

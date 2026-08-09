@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Okabe-Ito colorblind-safe palette. -->
+    <color name="okabe_blue">#0072B2</color>
+    <color name="okabe_orange">#E69F00</color>
+    <color name="okabe_green">#009E73</color>
+    <color name="okabe_skyblue">#56B4E9</color>
+    <color name="okabe_vermillion">#D55E00</color>
+</resources>
