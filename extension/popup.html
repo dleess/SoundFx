@@ -4,17 +4,99 @@
 <meta charset="utf-8">
 <title>sound</title>
 <style>
-  body { font-family: system-ui, sans-serif; width: 220px; padding: 12px; }
-  h1 { font-size: 16px; margin: 0 0 12px; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, sans-serif;
+    width: 320px;
+    margin: 0;
+    padding: 12px;
+    font-size: 13px;
+  }
+  h1 { font-size: 16px; margin: 0 0 2px; }
+  .host { font-size: 11px; color: #666; margin: 0 0 10px; word-break: break-all; }
+  .toggle-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .row label { flex: 0 0 76px; font-size: 12px; }
+  .row input[type="range"] { flex: 1 1 auto; min-width: 0; width: 100%; }
+  .row .val { flex: 0 0 58px; text-align: right; font-size: 11px; font-variant-numeric: tabular-nums; }
+  fieldset { border: 1px solid #ddd; border-radius: 6px; margin: 10px 0 0; padding: 4px 8px 8px; min-width: 0; }
+  legend { font-size: 11px; color: #555; padding: 0 4px; }
+  .actions { display: flex; gap: 8px; margin-top: 12px; }
+  .actions button { flex: 1 1 0; padding: 6px 4px; font-size: 12px; }
 </style>
 </head>
 <body>
 <h1>sound</h1>
-<label>
-  <input type="checkbox" id="enabled-toggle" checked>
-  켜짐
-</label>
-<!-- M3: 타깃 라우드니스, 컴프레서 파라미터, EQ 슬라이더, 사이트별 프리셋 UI가 여기 추가된다 -->
-<script src="popup.js"></script>
+<p class="host" id="host-label">-</p>
+
+<div id="panel">
+  <div class="toggle-row">
+    <label>
+      <input type="checkbox" id="enabled-toggle" checked>
+      켜짐
+    </label>
+  </div>
+
+  <div class="row">
+    <label for="target-lufs">타깃 라우드니스</label>
+    <input type="range" id="target-lufs" min="-60" max="0" step="1">
+    <span class="val" id="target-lufs-val"></span>
+  </div>
+
+  <fieldset>
+    <legend>컴프레서</legend>
+    <div class="row">
+      <label for="comp-threshold">threshold</label>
+      <input type="range" id="comp-threshold" min="-100" max="0" step="1">
+      <span class="val" id="comp-threshold-val"></span>
+    </div>
+    <div class="row">
+      <label for="comp-ratio">ratio</label>
+      <input type="range" id="comp-ratio" min="1" max="20" step="0.5">
+      <span class="val" id="comp-ratio-val"></span>
+    </div>
+    <div class="row">
+      <label for="comp-attack">attack</label>
+      <input type="range" id="comp-attack" min="0" max="1" step="0.001">
+      <span class="val" id="comp-attack-val"></span>
+    </div>
+    <div class="row">
+      <label for="comp-release">release</label>
+      <input type="range" id="comp-release" min="0" max="1" step="0.01">
+      <span class="val" id="comp-release-val"></span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>EQ</legend>
+    <div class="row">
+      <label for="eq-low">low</label>
+      <input type="range" id="eq-low" min="-24" max="24" step="1">
+      <span class="val" id="eq-low-val"></span>
+    </div>
+    <div class="row">
+      <label for="eq-mid">mid</label>
+      <input type="range" id="eq-mid" min="-24" max="24" step="1">
+      <span class="val" id="eq-mid-val"></span>
+    </div>
+    <div class="row">
+      <label for="eq-high">high</label>
+      <input type="range" id="eq-high" min="-24" max="24" step="1">
+      <span class="val" id="eq-high-val"></span>
+    </div>
+  </fieldset>
+</div>
+
+<div class="actions">
+  <button type="button" id="save-btn">이 사이트에 저장</button>
+  <button type="button" id="reset-btn">초기화</button>
+</div>
+
+<script type="module" src="popup.js"></script>
 </body>
 </html>
