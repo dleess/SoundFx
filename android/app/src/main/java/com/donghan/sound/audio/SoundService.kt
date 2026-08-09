@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.donghan.sound.R
 import com.donghan.sound.settings.SoundSettings
 
 /**
@@ -90,10 +91,10 @@ class SoundService : Service() {
     private fun startForegroundNotification() {
         val manager = getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(
-            NotificationChannel(CHANNEL_ID, "볼륨 정규화", NotificationManager.IMPORTANCE_LOW)
+            NotificationChannel(CHANNEL_ID, getString(R.string.notification_channel_name), NotificationManager.IMPORTANCE_LOW)
         )
         val notification: Notification = Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("볼륨 정규화 실행 중")
+            .setContentTitle(getString(R.string.notification_content_title))
             .setSmallIcon(android.R.drawable.ic_lock_silent_mode_off)
             .setOngoing(true)
             .build()

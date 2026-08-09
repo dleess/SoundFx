@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Sound" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.Sound" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/okabe_blue</item>
+        <item name="colorPrimaryVariant">@color/okabe_blue</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/okabe_orange</item>
+        <item name="colorSecondaryVariant">@color/okabe_orange</item>
+        <item name="colorOnSecondary">@android:color/black</item>
+    </style>
 </resources>
