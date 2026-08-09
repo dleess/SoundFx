@@ -30,3 +30,17 @@
 - 검증: `./gradlew clean test assembleDebug` 통과 (41 tasks, BUILD SUCCESSFUL). 테스트 1건 통과, `app/build/outputs/apk/debug/app-debug.apk` 생성 확인.
 - **환경 노트(다음 마일스톤 필독)**: 이 macOS 환경엔 PATH상의 기본 `java`가 없어(스텁만 존재) `./gradlew` 실행 전 반드시 `export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home` 필요. `android/gradle.properties`에 `org.gradle.java.home`도 같은 경로로 고정해둠(데몬용 안전장치, 부트스트랩 자체는 env var 필요).
 - scope: Play 배포·서명, extension/·safari/ 수정 없음. RECORD_AUDIO 등 과잉 권한 없음(권한 자체를 아직 추가 안 함).
+
+## 마일스톤 2 완료 — 오디오 이펙트 코어 (2026-08-09)
+
+- `app/src/main/java/com/donghan/sound/audio/` 5개 파일 (M1의 빈 `AudioEffectCore.kt` 플레이스홀더는 대체·삭제):
+  - `EffectParams.kt` — SoundSettings → DynamicsProcessing 파라미터 매핑(순수 Kotlin, Android API 의존 없음). 밴드 컷오프 300/3000/20000Hz 3밴드, preEq(사용자 EQ) → MBC(3밴드 컴프+밴드별 메이크업 postGain) → 리미터. postEq는 inUse=false(확장 체인에 대응물 없음). 입력 게인 = clamp(targetDb − (−20), ±12dB), 메이크업 = clamp((targetDb − threshold)×(1 − 1/ratio), 0..12dB). attack/release는 초→ms. 클램프 범위는 extension/settings-logic.js RANGES와 동일(설정이 인텐트 extra로 들어오는 신뢰 경계).
+  - `SessionRegistry.kt` — 세션 ID 상태 머신(순수 Kotlin). `open/close/active/targets/clear`. sessionId ≤ 0은 무효로 무시(0은 글로벌 믹스 예약, 음수는 AudioEffect 에러 코드). `targets()`가 비면 `[0]`을 돌려주는 것이 session 0 폴백 지점 — 폴백 정책이 한 곳에만 있다.
+  - `EffectEngine.kt` — 세션별 `DynamicsProcessing` attach/detach/파라미터 적용. attach·detach·apply 실패는 전부 catch 후 로그만(글로벌 믹스 attach를 거부하는 기기에서도 크래시 없음). 모든 경로에 `SoundFx` 태그 로그 — M4 E2E의 검증 근거.
+  - `SoundService.kt` — 포그라운드 서비스. `ACTION_OPEN/CLOSE_AUDIO_EFFECT_CONTROL_SESSION` 리시버 동적 등록(RECEIVER_EXPORTED), 변경 시 이펙트 재동기화. M3용 공개 API: `start(context)`, `stop(context)`, `updateSettings(context, SoundSettings)`, `ACTION_UPDATE_SETTINGS`, `ACTION_SESSIONS_CHANGED` + `EXTRA_SESSIONS`/`EXTRA_ATTACHED`. SoundSettings는 읽기 전용 계약이라 Serializable을 붙이지 않고 필드를 개별 extra로 전달.
+  - `TestTonePlayer.kt` — 검증용 톤 플레이어. `playQuiet()`(−30dBFS) / `playLoud()`(−6dBFS) / `stop()` / `sessionId()`. 441Hz(44100의 약수 → 루프 이음매 무클릭) 1초 사인파를 AudioTrack MODE_STATIC 무한 루프로 재생하고 자기 세션에 표준 이펙트 브로드캐스트 송신.
+- 서비스 타입은 **specialUse** — 이 앱은 재생하지 않고 남의 세션에 이펙트만 붙이므로 mediaPlayback이 아니다. 매니페스트 권한은 MODIFY_AUDIO_SETTINGS / FOREGROUND_SERVICE / FOREGROUND_SERVICE_SPECIAL_USE / POST_NOTIFICATIONS 4개뿐(RECORD_AUDIO 없음).
+- 테스트: `app/src/test/java/com/donghan/sound/audio/` 16건(EffectParams 8 + SessionRegistry 8) — 밴드 구성, 초→ms 변환, EQ 순서 매핑, 클램프, 입력 게인/메이크업 경계, 폴백·중복·순서 상태 머신.
+- 검증: `./gradlew test assembleDebug` BUILD SUCCESSFUL, 단위 테스트 17건 전부 통과(M1 1건 포함).
+- **환경 노트**: `JAVA_HOME` 외에 `export ANDROID_HOME=$HOME/Library/Android/sdk`도 필요하다. `android/local.properties`가 gitignore라 새 워크트리·클론에는 SDK 경로가 없다.
+- scope: settings/·MainActivity·extension/·safari/ 미수정, Play 배포 없음.
