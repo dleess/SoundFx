@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- M2에서 최소 권한 추가 (MODIFY_AUDIO_SETTINGS, FOREGROUND_SERVICE 계열) -->
+    <!-- 최소 권한만. 오디오를 녹음하지 않으므로 RECORD_AUDIO는 쓰지 않는다. -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 재생하지 않고 남의 오디오 세션에 이펙트만 붙이므로 mediaPlayback이 아닌 specialUse. -->
+        <service
+            android:name=".audio.SoundService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="system-wide volume normalization: attaches DynamicsProcessing to other apps' audio sessions" />
+        </service>
 
     </application>
 
