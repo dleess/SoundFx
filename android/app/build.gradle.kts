@@ -1,5 +1,12 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
+}
+
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
 }
 
 android {
@@ -7,16 +14,26 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.donghan.sound"
+        applicationId = "com.donghan.soundfx"
         minSdk = 29
         targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = localProps.getProperty("RELEASE_STORE_FILE")?.let { file(it) }
+            storePassword = localProps.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias = localProps.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword = localProps.getProperty("RELEASE_STORE_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
