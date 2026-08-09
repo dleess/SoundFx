@@ -1,7 +1,7 @@
 # 볼륨 정규화 앱 설계 (가칭 "sound")
 
 날짜: 2026-08-09
-상태: 1·2단계 완료 (Chrome/Firefox 확장 + Safari macOS/iOS 포팅) — 3단계 Android 대기
+상태: 전 3단계 완료 (Chrome/Firefox 확장 + Safari macOS/iOS + Android 앱) — 남은 것: 실기기 YouTube 검증, 스토어 배포
 
 ## 문제
 
