@@ -1,4 +1,4 @@
-# HANDOFF: SoundFx — 3-스토어 배포 진행: Chrome/iOS 심사 중, Play 내부 테스트 게시. 남은 것: 심사 대응 + Play 프로덕션 경로 + 실기기 검증
+# HANDOFF: SoundFx — 3-스토어 전부 심사 제출됨 (Chrome/iOS/Play). 남은 것: 심사 대응 + Play 테스터 12명×14일 → 프로덕션 + 실기기 검증
 
 **Written:** 2026-08-09 · **Working dir:** `/Users/donghanlee/work/projects/SoundFx` · **Branch:** `main` (origin: github.com/dleess/SoundFx)
 
@@ -11,7 +11,8 @@ YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱
 - **Play 스토어**: 내부 테스트 트랙 Active, v0.1.0 (versionCode 1). 앱명 "SoundFx: Volume Normalizer", applicationId `com.donghan.soundfx`. 테스터: lee.donghan, kbsi.bionmr. **프로덕션 불가: 개인 계정 정책상 비공개 테스트(12+명, 14일) 후 프로덕션 액세스 신청 필요.**
 - **Play 스토어 등록정보: 입력 완료·저장됨** (short/full description, 아이콘 512px, feature graphic 1024×500, 폰 스크린샷 4장 + 7"/10" 태블릿 각 2장).
 - **Play 앱 설정 설문 11/11 전부 완료**: Privacy policy URL, Ads(없음), Sign in details(없음), 콘텐츠 등급(IARC 전연령), Target audience(18+), Data safety(수집 없음), Advertising ID(없음), Government/Financial/Health(전부 없음), Foreground service(SPECIAL_USE — 데모 영상 https://youtube.com/shorts/nvh1fQeZXvE + 사유 저장), 카테고리(Music & Audio), 연락처(lee.donghan@gmail.com).
-- **심사 전송만 남음**: Publishing overview의 "Send app for review"가 잠겨 있음 ("complete required steps in the app dashboard"). 당일 3회 재확인 + 원인 조사 완료 — 대시보드 잔여 작업 없음, Android developer verification 정상(패키지 Registered, Identity 등록됨), 대기 변경 목록 오류 없음, 버튼은 사유 툴팁 없는 단순 disabled(`send-for-review-button`). **남은 가설은 Google 서버 반영 지연(최대 ~24h)뿐.** 다음 세션에서 버튼 활성화 확인 → 클릭 1회. 24h 경과 후에도 잠겨 있으면 Play Console Help → Contact support로 문의할 것.
+- **Play 심사 제출 완료 (2026-08-10)**: "Send app for review" 잠금의 진짜 원인은 서버 지연이 아니라 **심사 대상 릴리스(closed/production) 부재**였음 — 내부 테스트는 심사를 트리거하지 않음. 비공개 테스트 Alpha 트랙 설정(국가 177개, 테스터 리스트 2개 = SoundFx testers 2명 + 내부 테스터 25명, 피드백 이메일 lee.donghan) + v0.1.0 릴리스 생성 직후 버튼이 "Submit 15 changes for review"로 활성화 → 제출됨. 현재 **"Changes in review"** (통과 시 정식 앱명 표시 + closed 테스트 라이브).
+- **프로덕션 신청("Apply for production") 조건 3개 미충족**: ① closed 릴리스 게시(심사 통과 시 자동) ② 테스터 12명 opt-in (현재 0명 — opt-in 링크는 심사 통과 후 생성됨) ③ 12명 유지 14일 연속. **14일 타이머는 12명 모인 시점부터 시작** — 심사 통과 알림(lee.donghan@gmail.com) 받으면 즉시 테스터 모집할 것.
 - **macOS Safari 확장**: 미배포 (iOS만 제출됨).
 - 커밋 메시지 전체 영어화(히스토리 재작성), README/PRIVACY.md 추가됨.
 
@@ -48,7 +49,7 @@ YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱
 
 ## Next steps
 1. **Chrome/iOS 심사 결과 대응** (각 며칠). 리젝 시 이 문서의 제출 파이프라인 재사용.
-2. **Play 심사 전송**: Publishing overview에서 "Send app for review" 활성화 확인 후 클릭 (설문·등록정보는 전부 큐에 있음). 전송해야 임시 앱명("com.donghan.soundfx (unreviewed)")이 정식 명칭으로 바뀜.
+2. **Play 심사 통과 후**: closed 테스트 opt-in 링크(Alpha 트랙 Testers 탭)를 공유해 테스터 12명 모집 → 14일 뒤 대시보드에서 "Apply for production" 신청 (신청 시 closed 테스트 관련 설문 있음 — "Preview questions" 참조).
 3. **Play 프로덕션 경로**: 테스터 12명 모아 비공개 테스트 14일 → 대시보드에서 프로덕션 액세스 신청.
 4. **실기기 검증**: 폰에서 Play Console → Internal testing → Testers 탭 opt-in 링크로 설치 → YouTube 재생 → `adb logcat -s SoundFx`에서 `broadcast session=` 확인. session 0 폴백 동작 여부가 핵심 리스크.
 5. (선택) macOS Safari 확장 App Store 제출, Firefox AMO 제출.
