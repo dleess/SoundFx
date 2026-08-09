@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sound</string>
-    <string name="placeholder">M3: UI 구현 예정</string>
+
+    <string name="label_enabled">켜짐</string>
+    <string name="label_target">타깃 라우드니스</string>
+    <string name="label_compressor">컴프레서</string>
+    <string name="label_comp_threshold">threshold</string>
+    <string name="label_comp_ratio">ratio</string>
+    <string name="label_comp_attack">attack</string>
+    <string name="label_comp_release">release</string>
+    <string name="label_eq">EQ</string>
+    <string name="label_eq_low">low</string>
+    <string name="label_eq_mid">mid</string>
+    <string name="label_eq_high">high</string>
+    <string name="btn_test_quiet">조용한 톤</string>
+    <string name="btn_test_loud">시끄러운 톤</string>
+    <string name="status_running">서비스 상태: 실행 중</string>
+    <string name="status_stopped">서비스 상태: 중지됨</string>
 </resources>
