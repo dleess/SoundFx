@@ -1,11 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "sound",
+  "name": "SoundFx",
   "version": "0.1.0",
-  "description": "모든 사이트의 video/audio 라우드니스를 자동 정규화하고 EQ급 세밀 조절을 제공합니다.",
+  "description": "Normalizes loudness across all sites — quiet songs get louder, loud songs get tamed. With equalizer-grade controls.",
   "permissions": ["storage"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
   },
   "content_scripts": [
     {
