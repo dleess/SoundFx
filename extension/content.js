@@ -61,6 +61,7 @@
         workletNode.connect(gainNode);
         chain.workletNode = workletNode;
         updateWorklet(chain);
+        console.log('[sound] normalizer 워클릿 삽입 완료');
       })
       .catch((err) => {
         console.warn('[sound] normalizer 워클릿 로드 실패 — 정규화 없이 재생', err);
@@ -69,6 +70,7 @@
 
     const chain = { ctx, mediaEl, source, eq: { lowShelf, mid, highShelf }, compressor, gainNode };
     chains.set(mediaEl, chain);
+    console.log('[sound] 오디오 체인 연결:', mediaEl.tagName.toLowerCase(), mediaEl.currentSrc || '(src 없음)');
 
     // M4: 무음 감지 바이패스 지점 — 비동기 감시이므로 await하지 않는다(재생을 막지 않음).
     // 판정 결과는 chain.bypassed에 기록된다.
