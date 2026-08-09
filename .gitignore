@@ -7,3 +7,9 @@ DerivedData-macos/
 xcuserdata/
 *.xcuserstate
 *.xcscmblueprint
+
+# Android build artifacts (android/ Gradle 프로젝트)
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
