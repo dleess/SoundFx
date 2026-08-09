@@ -32,6 +32,9 @@ export function createSilenceDetector({ windowMs = 2000, threshold = 1e-6, check
     // 한 번의 분석 주기 결과를 투입한다.
     // sample({ buffer, paused, muted, currentTime }) -> { bypass, consecutiveSilent }
     sample({ buffer, paused, muted, currentTime }) {
+      // ponytail: loop로 currentTime이 되감기면 카운트가 리셋된다 — windowMs(2s)보다 짧은
+      // 루프 미디어는 taint여도 bypass가 영원히 안 걸리는 알려진 한계. 문제되면 루프 wrap
+      // (급감 후 계속 증가)을 advancing으로 인정하도록 확장할 것.
       const advancing = lastCurrentTime !== null && currentTime > lastCurrentTime;
       const isPlaying = !paused && !muted && advancing;
       lastCurrentTime = currentTime;
