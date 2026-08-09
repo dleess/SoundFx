@@ -160,7 +160,9 @@
     gainNode.connect(analyser);
     const buffer = new Float32Array(analyser.fftSize);
 
-    let checksLeft = detector.requiredConsecutive; // WINDOW_MS 동안의 최대 검사 횟수
+    // +1: detector의 첫 sample()은 currentTime 기준선 워밍업이라 무음 카운트에 포함되지
+    // 않는다 — 정확히 requiredConsecutive회만 돌면 최대 19연속에서 감시가 끝나 판정 불가.
+    let checksLeft = detector.requiredConsecutive + 1;
 
     const timer = setInterval(() => {
       if (chain.bypassed) {
