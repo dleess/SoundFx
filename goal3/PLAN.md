@@ -37,7 +37,7 @@
 
 ## 최종 완료 기준
 
-- [ ] 모든 마일스톤 완료
-- [ ] VALIDATION.md의 모든 검증 통과
-- [ ] scope 위반 없음 (배포·실기기 필수화 없음)
-- [ ] PROGRESS.md 업데이트
+- [x] 모든 마일스톤 완료
+- [x] VALIDATION.md의 모든 검증 통과
+- [x] scope 위반 없음 (배포·실기기 필수화 없음)
+- [x] PROGRESS.md 업데이트

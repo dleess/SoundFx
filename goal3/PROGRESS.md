@@ -59,3 +59,17 @@
 - 로컬 SDK 경로가 잡혀 있지 않아 `android/local.properties`(`sdk.dir=...`, gitignore 대상, 커밋 안 됨) 생성 후 검증 진행.
 - 검증: `./gradlew test assembleDebug` BUILD SUCCESSFUL, 42 tasks. 테스트 6/6 통과(`app/build/test-results/testDebugUnitTest/TEST-*.xml`).
 - scope: `AndroidManifest.xml`, `SoundSettings.kt`, `audio/` 내 다른 파일, `extension/`·`safari/`·`goal*/` 미수정. 과잉 권한 요구 없음.
+
+---
+
+## 마일스톤 4 완료 — 에뮬레이터 E2E 검증 (2026-08-09)
+
+- 코드 수정 없음(RECOVERY scope 잠금 준수) — 검증 전용 마일스톤. `./gradlew test assembleDebug`는 M3와 동일 결과(BUILD SUCCESSFUL, 42 tasks all up-to-date, 테스트 6/6)로 재확인만 함.
+- AVD test36에 `adb install -r`로 설치, `pm grant POST_NOTIFICATIONS`, `am start`로 실행. `dumpsys activity services`에서 포그라운드 서비스 `isForeground=true`, `foregroundNoti`(channel=sound_fx, FOREGROUND_SERVICE 플래그) 확인. 알림 패널 스크린샷에도 "볼륨 정규화 실행 중" 노출 확인.
+- 테스트 톤 버튼(조용한→시끄러운) 탭 → logcat `SoundFx` 태그에서 `broadcast ... session=N` → `detach`/`attach session=N` → `apply session=N enabled=... inputGain=... thr=... ratio=... atk=... rel=... makeup=... limiter=...` → `sync targets=[N] attached=[N]` 순서를 정확히 확인. 톤 전환 중간에 `attach session=0 (global mix fallback)`도 자연 발생 — session 0 폴백 경로를 별도 조작 없이 겸해서 확인.
+- **on/off 정량 증거**: `dumpsys media.audio_flinger`로 세션의 DynamicsProcessing 이펙트 항목의 `Session State Registered Internal Enabled Suspended` 행을 on/off 각각 캡처. OFF일 때 `00081 000 y n n n`(Enabled 열 = n), ON일 때 `00081 003 y n y n`(Enabled 열 = y) — logcat의 `apply session=81 enabled=false/true`와 1:1로 일치. 이것이 "청감 대체"의 측정 가능한 근거.
+- 슬라이더 2개(targetDb −24→−19dB 5스텝, comp.threshold −24→−21dB 3스텝) 조작 → 매 스텝마다 `settings updated:` + `apply ... inputGain/thr/makeup` 변화 로그 확인. `am force-stop` 후 재실행 → `settings updated: SoundSettings(... targetDb=-19.0, threshold=-21.0 ...)`로 정확히 복원(DataStore 영속화). UI 스크린샷으로도 슬라이더 위치 유지 시각 확인.
+- 스크린샷 5장 저장: `goal3/screenshots/android-1-main-ui-restored.png`(설정 유지된 메인 UI), `android-2-notification.png`(포그라운드 서비스 알림), `android-3-before-restart.png`, `android-3-toggle-off.png`/`android-4-toggle-on.png`(스위치 on/off 시각 비교).
+- **버그 없음.** 발견한 유일한 이슈는 앱 결함이 아니라 에뮬레이터/adb 환경 한계: `adb shell input tap`이 SwitchMaterial·Material Slider의 드래그 제스처 임계값을 만족하지 못해 단일 탭이 무시됨(버튼은 정상). `KEYCODE_TAB` 포커스 이동 + `KEYCODE_DPAD_CENTER`/`DPAD_RIGHT` 키 입력으로 동일한 `OnCheckedChangeListener`/`OnChangeListener` 코드 경로를 트리거해 우회 없이 검증 완료. 실기기 실제 손가락 탭에서는 재현되지 않을 가능성이 높으며 이 골 범위 밖(실기기 검증은 차기 항목).
+- 검증: VALIDATION.md 완료 기준 매핑 전 항목 "통과"로 갱신, "M4 실행 결과" 절 상세 기록.
+- scope: `android/` 소스 코드 변경 없음, `extension/`·`safari/` 미수정, Play 배포 없음, 과잉 권한 요구 없음.
