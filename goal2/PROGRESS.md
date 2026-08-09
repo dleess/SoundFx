@@ -15,7 +15,11 @@
 
 ## 현재 마일스톤
 
-M1·M3·M4 완료 — M2(macOS Safari 실기)만 사용자 확인 대기 (확장 활성화 체크 + 청취)
+**골 완료** (2026-08-09) — M1~M4 전부 통과.
+
+- M2 최종 확인: 사용자가 macOS Safari(확장 활성화)에서 실곡 2곡(사랑했나봐/어쩌다가, 원본 15.4dB 차이)을 청취 비교 → "비슷" 확인
+- 필수 검증: node --test 26/26, xcodebuild macOS/iOS 모두 BUILD SUCCEEDED (M1/M3에서 실행)
+- 다음 골 후보: 3단계 Android 앱, 또는 Safari App Store 배포(ship 절차)
 
 ## 완료
 
