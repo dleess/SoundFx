@@ -11,7 +11,7 @@ YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱
 - **Play 스토어**: 내부 테스트 트랙 Active, v0.1.0 (versionCode 1). 앱명 "SoundFx: Volume Normalizer", applicationId `com.donghan.soundfx`. 테스터: lee.donghan, kbsi.bionmr. **프로덕션 불가: 개인 계정 정책상 비공개 테스트(12+명, 14일) 후 프로덕션 액세스 신청 필요.**
 - **Play 스토어 등록정보: 입력 완료·저장됨** (short/full description, 아이콘 512px, feature graphic 1024×500, 폰 스크린샷 4장 + 7"/10" 태블릿 각 2장).
 - **Play 앱 설정 설문 11/11 전부 완료**: Privacy policy URL, Ads(없음), Sign in details(없음), 콘텐츠 등급(IARC 전연령), Target audience(18+), Data safety(수집 없음), Advertising ID(없음), Government/Financial/Health(전부 없음), Foreground service(SPECIAL_USE — 데모 영상 https://youtube.com/shorts/nvh1fQeZXvE + 사유 저장), 카테고리(Music & Audio), 연락처(lee.donghan@gmail.com).
-- **심사 전송만 남음**: Publishing overview의 "Send app for review"가 설정 완료 직후에도 잠겨 있음 ("complete required steps in the app dashboard" — 대시보드엔 남은 작업 없음). Google 서버 상태 반영 지연으로 추정, 수 시간 뒤 버튼 활성화되면 클릭 1회로 끝. 그때도 잠겨 있으면 계정 수준 개발자 본인확인(Android developer verification) 요건 의심할 것.
+- **심사 전송만 남음**: Publishing overview의 "Send app for review"가 잠겨 있음 ("complete required steps in the app dashboard"). 당일 3회 재확인 + 원인 조사 완료 — 대시보드 잔여 작업 없음, Android developer verification 정상(패키지 Registered, Identity 등록됨), 대기 변경 목록 오류 없음, 버튼은 사유 툴팁 없는 단순 disabled(`send-for-review-button`). **남은 가설은 Google 서버 반영 지연(최대 ~24h)뿐.** 다음 세션에서 버튼 활성화 확인 → 클릭 1회. 24h 경과 후에도 잠겨 있으면 Play Console Help → Contact support로 문의할 것.
 - **macOS Safari 확장**: 미배포 (iOS만 제출됨).
 - 커밋 메시지 전체 영어화(히스토리 재작성), README/PRIVACY.md 추가됨.
 
