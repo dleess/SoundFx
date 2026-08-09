@@ -1,12 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/placeholder" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</FrameLayout>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_enabled"
+            android:checked="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/label_target" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="-60"
+            android:valueTo="0"
+            android:stepSize="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/label_compressor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_comp_threshold" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_comp_threshold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="-100"
+            android:valueTo="0"
+            android:stepSize="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_comp_ratio" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_comp_ratio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="1"
+            android:valueTo="20"
+            android:stepSize="0.5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_comp_attack" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_comp_attack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="1"
+            android:stepSize="0.001" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_comp_release" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_comp_release"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="1"
+            android:stepSize="0.01" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/label_eq" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_eq_low" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_eq_low"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="-24"
+            android:valueTo="24"
+            android:stepSize="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_eq_mid" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_eq_mid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="-24"
+            android:valueTo="24"
+            android:stepSize="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_eq_high" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_eq_high"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="-24"
+            android:valueTo="24"
+            android:stepSize="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_test_quiet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="@string/btn_test_quiet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_test_loud"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_test_loud" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/status_running" />
+
+    </LinearLayout>
+</ScrollView>
