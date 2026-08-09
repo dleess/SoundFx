@@ -85,7 +85,7 @@ function init() {
     activeTabId = tab.id;
     chrome.tabs.sendMessage(tab.id, { type: 'get-hostname' }, (resp) => {
       hostname = (!chrome.runtime.lastError && resp?.hostname) || '';
-      hostLabel.textContent = hostname || '(지원하지 않는 페이지)';
+      hostLabel.textContent = hostname || '(unsupported page)';
       loadAndRender();
     });
   });

@@ -61,16 +61,16 @@
         workletNode.connect(gainNode);
         chain.workletNode = workletNode;
         updateWorklet(chain);
-        console.log('[sound] normalizer 워클릿 삽입 완료');
+        console.log('[SoundFx] normalizer worklet attached');
       })
       .catch((err) => {
-        console.warn('[sound] normalizer 워클릿 로드 실패 — 정규화 없이 재생', err);
+        console.warn('[SoundFx] normalizer worklet failed to load — playing without normalization', err);
       });
     gainNode.connect(ctx.destination);
 
     const chain = { ctx, mediaEl, source, eq: { lowShelf, mid, highShelf }, compressor, gainNode };
     chains.set(mediaEl, chain);
-    console.log('[sound] 오디오 체인 연결:', mediaEl.tagName.toLowerCase(), mediaEl.currentSrc || '(src 없음)');
+    console.log('[SoundFx] audio chain connected:', mediaEl.tagName.toLowerCase(), mediaEl.currentSrc || '(no src)');
 
     // M4: 무음 감지 바이패스 지점 — 비동기 감시이므로 await하지 않는다(재생을 막지 않음).
     // 판정 결과는 chain.bypassed에 기록된다.
@@ -131,7 +131,7 @@
         for (const chain of activeChains) applySettings(chain, currentSettings);
       });
     })
-    .catch((err) => console.warn('[sound] settings-logic 로드 실패', err));
+    .catch((err) => console.warn('[SoundFx] settings-logic failed to load', err));
 
   // M4가 채운다: gainNode 출력이 지속적으로 무음이면(CORS taint 등) mediaEl을 체인에서
   // 우회시켜 원본 재생(destination 미경유)으로 되돌린다.
@@ -151,7 +151,7 @@
         checkIntervalMs: CHECK_INTERVAL_MS,
       });
     } catch (err) {
-      console.warn('[sound] 무음 감지 모듈 로드 실패 — 바이패스 감시를 건너뜁니다', err);
+      console.warn('[SoundFx] silence detector module failed to load — skipping bypass monitoring', err);
       return;
     }
 
@@ -193,9 +193,10 @@
         source.connect(ctx.destination);
         chain.bypassed = true;
         console.warn(
-          '[sound] CORS taint로 추정되는 무음이 감지되어 오디오 체인을 우회(원본 직결)했습니다. ' +
-            '한계: 원본 미디어 자체가 taint된 상태라면 스펙상 직결해도 destination 출력이 ' +
-            '계속 무음일 수 있습니다(Web Audio가 원천적으로 해결할 수 없는 CORS 제약).'
+          '[SoundFx] Detected silence likely caused by CORS taint — bypassed the audio chain ' +
+            '(connected source directly to output). Limitation: if the source media itself is ' +
+            'tainted, the destination output may remain silent even after bypass (a CORS ' +
+            'constraint Web Audio cannot resolve on its own).'
         );
         return;
       }
@@ -213,7 +214,7 @@
     try {
       buildChain(mediaEl);
     } catch (err) {
-      console.warn('[sound] 오디오 체인 연결 실패', err);
+      console.warn('[SoundFx] audio chain connection failed', err);
     }
   }
 
