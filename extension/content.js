@@ -86,6 +86,7 @@
   // 구역으로 한정되어 있어서다. 구역 제약이 풀리면 chains 선언 옆에 순회 가능한
   // 레지스트리를 직접 두는 편이 더 단순하다.
   const activeChains = new Set();
+  window.__soundChains = activeChains; // 진단용 — isolated world에만 노출됨
   let currentSettings = null;
   const origChainsSet = chains.set.bind(chains);
   chains.set = (key, value) => {
