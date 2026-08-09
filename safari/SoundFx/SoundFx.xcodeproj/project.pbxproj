@@ -689,7 +689,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx.Extension;
 				PRODUCT_NAME = "SoundFx Extension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -722,7 +722,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx.Extension;
 				PRODUCT_NAME = "SoundFx Extension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -763,7 +763,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx;
 				PRODUCT_NAME = SoundFx;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -803,7 +803,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx;
 				PRODUCT_NAME = SoundFx;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -840,7 +840,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx.Extension;
 				PRODUCT_NAME = "SoundFx Extension";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -875,7 +875,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx.Extension;
 				PRODUCT_NAME = "SoundFx Extension";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -915,7 +915,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx;
 				PRODUCT_NAME = SoundFx;
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
@@ -956,7 +956,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.sound.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donghan.soundfx;
 				PRODUCT_NAME = SoundFx;
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
