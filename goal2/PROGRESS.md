@@ -15,7 +15,7 @@
 
 ## 현재 마일스톤
 
-마일스톤 3 완료 (마일스톤 2는 별도 진행 중일 수 있음 — 이 항목은 마일스톤 3 담당 에이전트가 기록)
+M1·M3·M4 완료 — M2(macOS Safari 실기)만 사용자 확인 대기 (확장 활성화 체크 + 청취)
 
 ## 완료
 
@@ -26,6 +26,8 @@
   - Safari에서 `https://m.youtube.com/watch?v=dQw4w9WgXcQ` 재생: iOS 자동재생 정책상 음소거 시작 → "TAP TO UNMUTE" 탭으로 소리 재생 확인(스크린샷 `ios-02-youtube-playback.png`).
   - macOS Safari 개발자 메뉴(Develop > iPhone 17 (Simulator) > 탭)로 Web Inspector 연결 성공, 페이지 재로드 후 콘솔에서 `[sound] 오디오 체인 연결: "video" - "(src 없음)"` (content.js:73) 및 `[sound] normalizer 워클릿 삽입 완료` (content.js:64) 로그 확인(스크린샷 `ios-03-console-log.png`) — VALIDATION.md 수동 절차 4~5 통과.
   - 한계: 시뮬레이터 소프트웨어 키보드가 한국어(2벌식)로 기본 설정되어 있어 idb `ui_type`으로 주소창에 영문 URL을 직접 입력하면 한글 자모로 깨짐. `xcrun simctl openurl`로 URL을 직접 열어 우회함(검색창 텍스트 입력 대신 URL 직접 진입 — scope 내 우회, extension/ 미수정).
+- 마일스톤 4: Chrome 패리티 확정. 2단계 전 기간 동안 `extension/` 무변경(`git diff db8fde5..HEAD -- extension/` 공백) — converter가 원본 참조 방식이라 수정 자체가 없었음. `node --test extension/tests/*.test.js` → 26/26 통과. (주의: 저장소 루트 `node --test`는 DerivedData 안 테스트 사본까지 세어 130개로 부풀려짐 — 전부 통과라 무해하지만 판정은 원본 26개 기준.)
+- macOS 확장 등록 이슈 해결(오케스트레이터): DerivedData 경로의 앱은 실행해도 pluginkit에 확장이 등록되지 않음 → `~/Applications/sound.app`으로 복사 후 실행하니 등록됨. 중복 등록은 `pluginkit -r`로 정리.
 
 ## 마지막 검증 결과
 
