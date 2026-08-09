@@ -30,3 +30,18 @@
 - 검증: `./gradlew clean test assembleDebug` 통과 (41 tasks, BUILD SUCCESSFUL). 테스트 1건 통과, `app/build/outputs/apk/debug/app-debug.apk` 생성 확인.
 - **환경 노트(다음 마일스톤 필독)**: 이 macOS 환경엔 PATH상의 기본 `java`가 없어(스텁만 존재) `./gradlew` 실행 전 반드시 `export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home` 필요. `android/gradle.properties`에 `org.gradle.java.home`도 같은 경로로 고정해둠(데몬용 안전장치, 부트스트랩 자체는 env var 필요).
 - scope: Play 배포·서명, extension/·safari/ 수정 없음. RECORD_AUDIO 등 과잉 권한 없음(권한 자체를 아직 추가 안 함).
+
+---
+
+## 마일스톤 3 완료 — UI + 설정 영속화 (2026-08-09, worktree 병렬 작업)
+
+- `MainActivity.kt`를 Views 기반(Compose 미사용) 단일 화면으로 구현: SwitchMaterial(온/오프) + targetDb Slider + 컴프레서 4슬라이더(threshold/ratio/attack/release) + EQ 3슬라이더(low/mid/high) + 테스트 톤 버튼 2개(조용한/시끄러운) + 서비스 상태 TextView. `activity_main.xml`을 ScrollView+LinearLayout으로 전면 교체, 라벨/문자열은 `strings.xml`에 추가(Korean, popup.html과 패리티). `themes.xml`은 `Theme.MaterialComponents.DayNight.NoActionBar`로 변경(Material Slider/Switch가 AppCompat 테마에서 런타임 예외를 던지므로 필수).
+- 수동 저장 버튼 없음 — 슬라이더/스위치 값 변경 시(`fromUser`) 즉시 `SettingsRepository.save()` + `SoundService.updateSettings()` 호출. 앱 시작 시 `settingsFlow.first()`로 1회 로드해 UI에 반영하고 `SoundService.start()` + `updateSettings()` 호출.
+- `settings/SettingsRepository.kt` 신설: `androidx.datastore:datastore-preferences:1.1.1` 사용. 직렬화/기본값/클램프 로직을 `SettingsCodec`(object, DataStore/Context 비의존 순수 함수)으로 분리 — `clamp()`가 슬라이더 range(targetDb -60..0, comp.threshold -100..0, ratio 1..20, attack/release 0..1, eq -24..24, popup.html min/max와 동일)로 값을 강제하고 `write()`/`read()`가 이를 사용. `SoundSettings.kt`는 수정하지 않음.
+  - **API 함정 기록**: `androidx.datastore.preferences.core.PreferencesKeys`(object)와 `PreferencesFactory`는 Kotlin에서 `internal`이라 외부 모듈에서 unresolved reference 남(javap 상 public bytecode라도 Kotlin 컴파일러가 kotlin_module 메타데이터로 모듈 경계를 강제). 실제 공개 API는 최상위 함수 `booleanPreferencesKey()`/`floatPreferencesKey()`/`mutablePreferencesOf()` — 문서 기억과 일치. 다음에 DataStore 쓸 때 바로 이 이름 사용할 것.
+- 이펙트 코어 공개 계약(M2가 병렬 작업 중)에 대한 임시 스텁 `audio/ServiceStub.kt` 추가 — `SoundService.start/stop/updateSettings(context, settings)`, `TestTonePlayer.playQuiet/playLoud(context)`. 파일 상단에 "MERGE: M2의 실제 SoundService/TestTonePlayer로 교체" 주석. **머지 시 이 파일을 삭제**하고 M2가 만든 실제 구현으로 교체할 것. `audio/AudioEffectCore.kt`(M2 소유)는 건드리지 않음.
+- `app/build.gradle.kts`에 `androidx.datastore:datastore-preferences:1.1.1`, `androidx.lifecycle:lifecycle-runtime-ktx:2.8.7` 추가(lifecycleScope용). 그 외 dependency 변경 없음.
+- 단위 테스트: `settings/SettingsCodecTest.kt` 5케이스(클램프 통과값 무변경/타깃·컴프레서 clamp/EQ clamp/write-read round-trip/빈 preferences 기본값) — DataStore 자체가 아니라 `SettingsCodec` 순수 매핑 로직만 검증. `datastore-preferences-core`가 순수 JVM 아티팩트라 Robolectric 없이 plain JUnit으로 동작. 기존 `SoundSettingsTest`(1건)와 합쳐 총 6건 전부 통과.
+- 로컬 SDK 경로가 잡혀 있지 않아 `android/local.properties`(`sdk.dir=...`, gitignore 대상, 커밋 안 됨) 생성 후 검증 진행.
+- 검증: `./gradlew test assembleDebug` BUILD SUCCESSFUL, 42 tasks. 테스트 6/6 통과(`app/build/test-results/testDebugUnitTest/TEST-*.xml`).
+- scope: `AndroidManifest.xml`, `SoundSettings.kt`, `audio/` 내 다른 파일, `extension/`·`safari/`·`goal*/` 미수정. 과잉 권한 요구 없음.
