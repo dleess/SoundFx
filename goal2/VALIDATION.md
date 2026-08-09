@@ -34,7 +34,7 @@ xcodebuild -project safari/sound/sound.xcodeproj -scheme "sound (iOS)" -destinat
 | macOS Safari 실기 동작 (체인·워클릿·팝업) | 수동 1~3 | 대기 |
 | iOS 시뮬레이터 빌드·설치·활성화 | xcodebuild (iOS) + 수동 4 | 통과 (M3) |
 | iOS Safari 동작 확인·한계 기록 | 수동 4~5 | 통과 (M3) |
-| Chrome 패리티 유지 | node --test + 수동 6 | 대기 |
+| Chrome 패리티 유지 | node --test + 수동 6 | 통과 (M4: extension/ 무변경 + 26/26) |
 
 ## 완료로 보지 않는 조건
 
