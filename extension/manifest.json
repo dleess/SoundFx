@@ -17,7 +17,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["gain-logic.js", "normalizer.worklet.js", "silence-detector.js"],
+      "resources": ["gain-logic.js", "normalizer.worklet.js", "silence-detector.js", "settings-logic.js"],
       "matches": ["<all_urls>"]
     }
   ]

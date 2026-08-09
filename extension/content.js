@@ -77,13 +77,58 @@
     return chain;
   }
 
-  // M3: chrome.runtime.onMessage 설정 수신 지점 — 여기서 받은 settings를 각 체인에 적용한다.
-  // chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  //   for (const chain of /* 관리 중인 체인 목록 */ []) applySettings(chain, msg.settings);
-  // });
+  // M3: 설정 메시징 — popup.js가 chrome.tabs.sendMessage로 보낸 settings를 연결된 모든
+  // chain에 적용한다. chains(WeakMap)는 순회 불가하므로 set()을 감싸 순회 가능한
+  // activeChains에도 추가하고, 이미 알려진 설정을 새로 생성되는 chain에도 즉시 적용한다.
+  // ponytail: chains.set을 선언부(위 6줄)가 아니라 여기서 패치한다 — 이 수정은 M3 스텁
+  // 구역으로 한정되어 있어서다. 구역 제약이 풀리면 chains 선언 옆에 순회 가능한
+  // 레지스트리를 직접 두는 편이 더 단순하다.
+  const activeChains = new Set();
+  let currentSettings = null;
+  const origChainsSet = chains.set.bind(chains);
+  chains.set = (key, value) => {
+    origChainsSet(key, value);
+    activeChains.add(value);
+    if (currentSettings) applySettings(value, currentSettings);
+    return chains;
+  };
+
   function applySettings(chain, settings) {
-    // M3가 채운다: on/off, EQ 게인, 컴프레서 threshold/ratio/attack/release 반영
+    chain.settings = settings;
+    const enabled = settings.enabled !== false;
+    const eq = enabled ? settings.eq : { low: 0, mid: 0, high: 0 };
+    const comp = enabled ? settings.comp : { threshold: 0, ratio: 1, attack: 0.003, release: 0.25 };
+    chain.eq.lowShelf.gain.value = eq.low;
+    chain.eq.mid.gain.value = eq.mid;
+    chain.eq.highShelf.gain.value = eq.high;
+    chain.compressor.threshold.value = comp.threshold;
+    chain.compressor.ratio.value = comp.ratio;
+    chain.compressor.attack.value = comp.attack;
+    chain.compressor.release.value = comp.release;
+    // M2의 워클릿 게인 갱신 훅(window.__soundUpdateWorklet). 워클릿 미로드 시 무시한다.
+    if (typeof window.__soundUpdateWorklet === 'function') window.__soundUpdateWorklet(chain);
   }
+
+  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    if (msg && msg.type === 'get-hostname') {
+      sendResponse({ hostname: location.hostname });
+      return;
+    }
+    if (!msg || !msg.settings) return;
+    currentSettings = msg.settings;
+    for (const chain of activeChains) applySettings(chain, currentSettings);
+  });
+
+  // 초기 로드: storage.sync에서 현재 hostname 설정을 읽어 이후 생성되는 chain에 적용한다.
+  import(chrome.runtime.getURL('settings-logic.js'))
+    .then(({ resolveSettings, siteKey }) => {
+      const key = siteKey(location.hostname);
+      chrome.storage.sync.get(['defaults', key], (data) => {
+        currentSettings = resolveSettings(data.defaults, data[key]);
+        for (const chain of activeChains) applySettings(chain, currentSettings);
+      });
+    })
+    .catch((err) => console.warn('[sound] settings-logic 로드 실패', err));
 
   // M4가 채운다: gainNode 출력이 지속적으로 무음이면(CORS taint 등) mediaEl을 체인에서
   // 우회시켜 원본 재생(destination 미경유)으로 되돌린다.
