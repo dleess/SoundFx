@@ -1,14 +1,75 @@
-// content.js — sound 콘텐츠 스크립트 (마일스톤 1: 스캐폴드 + 오디오 체인)
+// content.js — sound 콘텐츠 스크립트
 //
 // 미디어 요소를 감지해 Web Audio 체인을 1회만 연결한다:
-//   MediaElementSource → BiquadFilter EQ(3밴드) → DynamicsCompressor → Gain → destination
+//   MediaElementSource → BiquadFilter EQ(3밴드) → DynamicsCompressor → Normalizer Worklet → Gain → destination
+// AudioContext는 문서당 1개를 공유하고, 워클릿 모듈도 1회만 로드한다.
 (() => {
-  const chains = new WeakMap(); // HTMLMediaElement -> chain
+  const chains = new WeakMap(); // HTMLMediaElement -> chain — chain 수명은 mediaEl 생존에 종속
+  // 순회용 레지스트리. WeakRef라 chain을 강참조하지 않는다 — mediaEl이 GC되면 함께 회수되고,
+  // 죽은 ref는 forEachChain 순회 중에 청소한다.
+  const chainRefs = new Set();
+  window.__soundChains = chainRefs; // 진단용 — isolated world에만 노출됨 (WeakRef Set)
+  let currentSettings = null;
+
+  function forEachChain(fn) {
+    for (const ref of chainRefs) {
+      const chain = ref.deref();
+      if (chain) fn(chain);
+      else chainRefs.delete(ref);
+    }
+  }
+
+  // 문서당 AudioContext 1개 공유 (컨텍스트는 렌더 스레드·하드웨어 출력을 잡는 무거운 객체다).
+  let sharedCtx = null;
+  let workletReady = null; // Promise<boolean> — 모듈 로드 성공 여부
+  function getCtx() {
+    if (!sharedCtx) {
+      sharedCtx = new (window.AudioContext || window.webkitAudioContext)();
+      workletReady = sharedCtx.audioWorklet
+        .addModule(chrome.runtime.getURL('normalizer.worklet.js'))
+        .then(() => true)
+        .catch((err) => {
+          console.warn('[SoundFx] normalizer worklet failed to load — playing without normalization', err);
+          return false;
+        });
+    }
+    return sharedCtx;
+  }
+
+  // 자동재생 정책으로 suspended 상태로 생성된 컨텍스트는 소리가 전혀 안 난다.
+  // 사용자 제스처마다 resume을 시도한다 (running이면 no-op 수준으로 싸다).
+  function resumeCtx() {
+    if (sharedCtx && sharedCtx.state === 'suspended') sharedCtx.resume().catch(() => {});
+  }
+  for (const type of ['pointerdown', 'keydown']) {
+    document.addEventListener(type, resumeCtx, { capture: true, passive: true });
+  }
+
+  function updateWorklet(chain) {
+    if (!chain.workletNode || !chain.settings) return;
+    const { targetLufs, enabled } = chain.settings;
+    chain.workletNode.port.postMessage({ targetLufs, enabled });
+  }
+
+  function applySettings(chain, settings) {
+    chain.settings = settings;
+    const enabled = settings.enabled !== false;
+    const eq = enabled ? settings.eq : { low: 0, mid: 0, high: 0 };
+    const comp = enabled ? settings.comp : { threshold: 0, ratio: 1, attack: 0.003, release: 0.25 };
+    chain.eq.lowShelf.gain.value = eq.low;
+    chain.eq.mid.gain.value = eq.mid;
+    chain.eq.highShelf.gain.value = eq.high;
+    chain.compressor.threshold.value = comp.threshold;
+    chain.compressor.ratio.value = comp.ratio;
+    chain.compressor.attack.value = comp.attack;
+    chain.compressor.release.value = comp.release;
+    updateWorklet(chain);
+  }
 
   function buildChain(mediaEl) {
     if (chains.has(mediaEl)) return chains.get(mediaEl);
 
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getCtx();
     const source = ctx.createMediaElementSource(mediaEl);
 
     const lowShelf = ctx.createBiquadFilter();
@@ -36,90 +97,46 @@
     lowShelf.connect(mid);
     mid.connect(highShelf);
     highShelf.connect(compressor);
-    // === M2: 자동 라우드니스 정규화 ===
-    // addModule은 비동기라 우선 compressor→gainNode로 이어 두고, 모듈이 로드되면
+    // 워클릿 모듈 로드는 비동기라 우선 compressor→gainNode로 이어 두고, 로드되면
     // 그 사이에 워클릿을 끼워 넣는다. 실패하면 체인은 그대로라 소리는 계속 난다.
     compressor.connect(gainNode);
-
-    // M3의 applySettings가 호출할 수 있도록 전역 노출한다.
-    // ponytail: buildChain마다 재정의(동일 함수). 신경 쓰이면 IIFE 스코프로 올릴 것.
-    function updateWorklet(chain) {
-      if (!chain || !chain.workletNode || !chain.settings) return;
-      const { targetLufs, enabled } = chain.settings;
-      chain.workletNode.port.postMessage({ targetLufs, enabled });
-    }
-    window.__soundUpdateWorklet = updateWorklet;
-
-    ctx.audioWorklet
-      .addModule(chrome.runtime.getURL('normalizer.worklet.js'))
-      .then(() => {
-        const chain = chains.get(mediaEl);
-        if (!chain) return;
-        const workletNode = new AudioWorkletNode(ctx, 'normalizer-processor');
-        compressor.disconnect(gainNode);
-        compressor.connect(workletNode);
-        workletNode.connect(gainNode);
-        chain.workletNode = workletNode;
-        updateWorklet(chain);
-        console.log('[SoundFx] normalizer worklet attached');
-      })
-      .catch((err) => {
-        console.warn('[SoundFx] normalizer worklet failed to load — playing without normalization', err);
-      });
     gainNode.connect(ctx.destination);
 
     const chain = { ctx, mediaEl, source, eq: { lowShelf, mid, highShelf }, compressor, gainNode };
     chains.set(mediaEl, chain);
+    chainRefs.add(new WeakRef(chain));
+    if (currentSettings) applySettings(chain, currentSettings);
     console.log('[SoundFx] audio chain connected:', mediaEl.tagName.toLowerCase(), mediaEl.currentSrc || '(no src)');
 
-    // M4: 무음 감지 바이패스 지점 — 비동기 감시이므로 await하지 않는다(재생을 막지 않음).
+    workletReady.then((ok) => {
+      if (!ok || chain.bypassed) return;
+      const workletNode = new AudioWorkletNode(ctx, 'normalizer-processor');
+      compressor.disconnect(gainNode);
+      compressor.connect(workletNode);
+      workletNode.connect(gainNode);
+      chain.workletNode = workletNode;
+      updateWorklet(chain);
+    });
+
+    // 무음 감지 바이패스 — 비동기 감시이므로 await하지 않는다(재생을 막지 않음).
     // 판정 결과는 chain.bypassed에 기록된다.
     checkSilenceAndBypass(chain);
 
     return chain;
   }
 
-  // M3: 설정 메시징 — popup.js가 chrome.tabs.sendMessage로 보낸 settings를 연결된 모든
-  // chain에 적용한다. chains(WeakMap)는 순회 불가하므로 set()을 감싸 순회 가능한
-  // activeChains에도 추가하고, 이미 알려진 설정을 새로 생성되는 chain에도 즉시 적용한다.
-  // ponytail: chains.set을 선언부(위 6줄)가 아니라 여기서 패치한다 — 이 수정은 M3 스텁
-  // 구역으로 한정되어 있어서다. 구역 제약이 풀리면 chains 선언 옆에 순회 가능한
-  // 레지스트리를 직접 두는 편이 더 단순하다.
-  const activeChains = new Set();
-  window.__soundChains = activeChains; // 진단용 — isolated world에만 노출됨
-  let currentSettings = null;
-  const origChainsSet = chains.set.bind(chains);
-  chains.set = (key, value) => {
-    origChainsSet(key, value);
-    activeChains.add(value);
-    if (currentSettings) applySettings(value, currentSettings);
-    return chains;
-  };
-
-  function applySettings(chain, settings) {
-    chain.settings = settings;
-    const enabled = settings.enabled !== false;
-    const eq = enabled ? settings.eq : { low: 0, mid: 0, high: 0 };
-    const comp = enabled ? settings.comp : { threshold: 0, ratio: 1, attack: 0.003, release: 0.25 };
-    chain.eq.lowShelf.gain.value = eq.low;
-    chain.eq.mid.gain.value = eq.mid;
-    chain.eq.highShelf.gain.value = eq.high;
-    chain.compressor.threshold.value = comp.threshold;
-    chain.compressor.ratio.value = comp.ratio;
-    chain.compressor.attack.value = comp.attack;
-    chain.compressor.release.value = comp.release;
-    // M2의 워클릿 게인 갱신 훅(window.__soundUpdateWorklet). 워클릿 미로드 시 무시한다.
-    if (typeof window.__soundUpdateWorklet === 'function') window.__soundUpdateWorklet(chain);
-  }
-
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg && msg.type === 'get-hostname') {
-      sendResponse({ hostname: location.hostname });
+      let bypassed = false;
+      forEachChain((c) => {
+        if (c.bypassed) bypassed = true;
+      });
+      sendResponse({ hostname: location.hostname, bypassed });
       return;
     }
     if (!msg || !msg.settings) return;
     currentSettings = msg.settings;
-    for (const chain of activeChains) applySettings(chain, currentSettings);
+    forEachChain((c) => applySettings(c, currentSettings));
   });
 
   // 초기 로드: storage.sync에서 현재 hostname 설정을 읽어 이후 생성되는 chain에 적용한다.
@@ -128,12 +145,12 @@
       const key = siteKey(location.hostname);
       chrome.storage.sync.get(['defaults', key], (data) => {
         currentSettings = resolveSettings(data.defaults, data[key]);
-        for (const chain of activeChains) applySettings(chain, currentSettings);
+        forEachChain((c) => applySettings(c, currentSettings));
       });
     })
     .catch((err) => console.warn('[SoundFx] settings-logic failed to load', err));
 
-  // M4가 채운다: gainNode 출력이 지속적으로 무음이면(CORS taint 등) mediaEl을 체인에서
+  // gainNode 출력이 지속적으로 무음이면(CORS taint 등) mediaEl을 체인에서
   // 우회시켜 원본 재생(destination 미경유)으로 되돌린다.
   async function checkSilenceAndBypass(chain) {
     const WINDOW_MS = 2000; // 재생 시작 후 감시할 총 시간
@@ -171,6 +188,10 @@
         analyser.disconnect();
         return;
       }
+
+      // suspended 컨텍스트의 무음은 CORS taint가 아니다 — 판정 보류(카운트도 소모하지 않음).
+      // 여기서 우회를 걸어도 같은 정지된 컨텍스트 안이라 여전히 무음이므로 의미도 없다.
+      if (ctx.state !== 'running') return;
 
       analyser.getFloatTimeDomainData(buffer);
       const { bypass } = detector.sample({
@@ -213,6 +234,8 @@
     if (!(mediaEl instanceof HTMLMediaElement)) return;
     try {
       buildChain(mediaEl);
+      // 사용자 클릭으로 시작된 재생이면 이 시점에 제스처가 살아 있어 resume이 먹힌다.
+      resumeCtx();
     } catch (err) {
       console.warn('[SoundFx] audio chain connection failed', err);
     }

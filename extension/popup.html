@@ -31,12 +31,19 @@
   .actions { display: flex; gap: 8px; margin-top: 12px; }
   .actions button { flex: 1 1 0; padding: 6px 4px; font-size: 12px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; }
   #save-btn { background: #0072B2; border-color: #0072B2; color: #fff; }
-  #reset-btn { background: #f2f2f2; color: #1a1a1a; }
+  #defaults-btn, #reset-btn { background: #f2f2f2; color: #1a1a1a; }
+  .badge {
+    background: #fff3cd; border: 1px solid #E69F00; border-radius: 6px;
+    padding: 6px 8px; font-size: 11px; color: #7a5200; margin: 0 0 10px;
+  }
+  .status { min-height: 14px; font-size: 11px; color: #009E73; margin: 6px 0 0; }
+  .status.error { color: #D55E00; }
 </style>
 </head>
 <body>
 <h1>SoundFx</h1>
 <p class="host" id="host-label">-</p>
+<p class="badge" id="bypass-badge" hidden>⚠️ This site plays original audio (CORS restriction) — adjustments have no effect here.</p>
 
 <div id="panel">
   <div class="toggle-row">
@@ -97,9 +104,11 @@
 </div>
 
 <div class="actions">
-  <button type="button" id="save-btn">Save for this site</button>
+  <button type="button" id="save-btn">Save for site</button>
+  <button type="button" id="defaults-btn">Save as default</button>
   <button type="button" id="reset-btn">Reset</button>
 </div>
+<p class="status" id="status"></p>
 
 <script type="module" src="popup.js"></script>
 </body>
