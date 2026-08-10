@@ -47,6 +47,10 @@ YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱
 - 스토어 자산: 아이콘 `extension/icons/icon128.png`, iPhone 6.7" 스크린샷은 `goal2/screenshots/` 1206×2622를 1290×2796로 리사이즈해 사용했음. iPad는 레터박스 버전 (심사 지적 시 실캡처 필요).
 - PRIVACY.md — 스토어 공용 개인정보 정책 URL: `https://github.com/dleess/SoundFx/blob/main/PRIVACY.md`.
 
+## Decision log
+- **2026-08-11 — Android K-가중 LUFS 측정 도입 보류.** extension은 리뷰 후속으로 진짜 BS.1770 K-가중 momentary LUFS를 구현했지만(커밋 `c552724`), Android는 현행 "정적 게인(가정 -20dBFS) + MBC" 유지. 사유: ① 타 앱 오디오 측정은 Visualizer(=`RECORD_AUDIO` 권한, 8-bit 스냅샷이라 정직한 LUFS 불가) 또는 AudioPlaybackCapture(매번 동의 다이얼로그, 앱별 캡처 거부)뿐 — 둘 다 대가가 큼. ② 비공개 테스트 진행 중 민감 권한 추가는 Play 설문(11/11 완료)·심사를 다시 건드림. ③ 적응적 레벨링은 MBC가 이미 수행, 이득은 정적 inputGain 정확도뿐. **재검토 조건**: 프로덕션 출시 후 "조용한 앱이 안 커진다" 실사용 피드백이 오면 — 그때는 Visualizer `MEASUREMENT_MODE_PEAK_RMS` 기반 옵트인 "자동 레벨 보정"(LUFS 명칭 금지)으로. 상세 근거는 이 결정 직전 세션 대화 참조.
+- **2026-08-11 — extension 리뷰 결함 8건 수정 커밋됨(`c552724`), 스토어 재배포는 보류.** storage.sync 디바운스, chain 누수(WeakRef), 문서당 AudioContext 1개, resume(), BS.1770 LUFS, 소프트 클립, defaults UI·바이패스 배지, 테스트 79건. **현재 3개 스토어에 제출된 빌드는 이 수정 이전 코드** — Play 14일 테스트 흐름을 건드리지 않기 위한 의도적 보류. 다음 배포 사이클에 포함할 것.
+
 ## Next steps
 1. **Chrome/iOS 심사 결과 대응** (각 며칠). 리젝 시 이 문서의 제출 파이프라인 재사용.
 2. **Play 심사 통과 후**: closed 테스트 opt-in 링크(Alpha 트랙 Testers 탭)를 공유해 테스터 12명 모집 → 14일 뒤 대시보드에서 "Apply for production" 신청 (신청 시 closed 테스트 관련 설문 있음 — "Preview questions" 참조).
