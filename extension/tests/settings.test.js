@@ -46,3 +46,27 @@ test('clampSettings는 범위를 벗어난 값을 클램프한다', () => {
   assert.equal(result.eq.low, 24);
   assert.equal(result.eq.mid, -24);
 });
+
+test('debounce: 연속 호출은 마지막 인자로 1회만 실행된다', async () => {
+  const { debounce } = await import('../settings-logic.js');
+  const calls = [];
+  const fn = debounce((v) => calls.push(v), 20);
+  fn(1);
+  fn(2);
+  fn(3);
+  assert.equal(calls.length, 0, '대기 시간 전에는 실행되면 안 된다');
+  await new Promise((r) => setTimeout(r, 60));
+  assert.deepEqual(calls, [3]);
+});
+
+test('debounce: flush()는 대기 중인 호출을 즉시 실행하고, 없으면 아무것도 안 한다', async () => {
+  const { debounce } = await import('../settings-logic.js');
+  const calls = [];
+  const fn = debounce((v) => calls.push(v), 1000);
+  fn('pending');
+  fn.flush();
+  assert.deepEqual(calls, ['pending'], 'flush 즉시 실행');
+  fn.flush(); // 대기 없음 — 중복 실행 금지
+  await new Promise((r) => setTimeout(r, 30));
+  assert.deepEqual(calls, ['pending']);
+});

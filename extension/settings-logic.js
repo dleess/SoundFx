@@ -61,3 +61,28 @@ export function resolveSettings(defaultsPatch, sitePatch) {
   const withSite = mergeSettings(withDefaults, sitePatch);
   return clampSettings(withSite);
 }
+
+// 마지막 호출 후 waitMs가 지나야 fn을 1회 실행한다. flush()는 대기 중인 호출을 즉시 실행.
+// (popup의 storage.sync 쓰기 보호용 — sync는 분당 쓰기 한도가 있어 슬라이더 드래그마다 쓰면 터진다.)
+export function debounce(fn, waitMs) {
+  let timer = null;
+  let pendingArgs = null;
+  const invoke = () => {
+    timer = null;
+    const args = pendingArgs;
+    pendingArgs = null;
+    fn(...args);
+  };
+  const debounced = (...args) => {
+    pendingArgs = args;
+    clearTimeout(timer);
+    timer = setTimeout(invoke, waitMs);
+  };
+  debounced.flush = () => {
+    if (timer !== null) {
+      clearTimeout(timer);
+      invoke();
+    }
+  };
+  return debounced;
+}

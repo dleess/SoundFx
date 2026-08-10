@@ -4,7 +4,7 @@ Automatic loudness normalization for any `<video>`/`<audio>` — across browsers
 
 ## How it works
 
-- **Browsers**: a content script attaches a Web Audio chain (`MediaElementSource → EQ → DynamicsCompressor → auto-makeup Gain`) to every media element; an AudioWorklet measures real-time loudness (RMS-based approximate LUFS) and steers gain toward the target.
+- **Browsers**: a content script attaches a Web Audio chain (`MediaElementSource → EQ → DynamicsCompressor → auto-makeup Gain`) to every media element (one shared `AudioContext` per document); an AudioWorklet measures real-time loudness (BS.1770 K-weighted momentary LUFS, 400ms window) and steers gain toward the target, with a soft clipper on the output.
 - **Android**: attaches `DynamicsProcessing` audio effects to sessions announced via `ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION` broadcasts, with a session 0 fallback.
 - **iOS**: sandboxing blocks access to other apps' audio, so iOS is covered by the Safari web extension (web playback only).
 
