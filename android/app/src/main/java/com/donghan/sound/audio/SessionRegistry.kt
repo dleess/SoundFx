@@ -5,11 +5,20 @@ package com.donghan.sound.audio
 
 const val GLOBAL_SESSION = 0
 
+// ponytail: 동시 재생 세션이 8개를 넘는 실사용은 없다 — 넘치면 LRU가 아니라 단순 FIFO 축출.
+private const val MAX_SESSIONS = 8
+
 class SessionRegistry {
     private val sessions = LinkedHashSet<Int>()
 
     /** 세션 추가. 새로 추가됐으면 true(= 이펙트 attach 필요). 유효하지 않거나 중복이면 false. */
-    fun open(sessionId: Int): Boolean = isValid(sessionId) && sessions.add(sessionId)
+    // CLOSE를 안 보내고 죽는 앱이 흔해 무한히 쌓이면 네이티브 이펙트 한도에 걸려 새 attach가
+    // 전부 실패한다 — 가장 오래된 세션부터 밀어낸다(다음 sync가 detach 처리).
+    fun open(sessionId: Int): Boolean {
+        if (!isValid(sessionId) || !sessions.add(sessionId)) return false
+        while (sessions.size > MAX_SESSIONS) sessions.remove(sessions.first())
+        return true
+    }
 
     /** 세션 제거. 실제로 지워졌으면 true(= detach 필요). */
     fun close(sessionId: Int): Boolean = sessions.remove(sessionId)

@@ -47,6 +47,44 @@ test('clampSettings는 범위를 벗어난 값을 클램프한다', () => {
   assert.equal(result.eq.mid, -24);
 });
 
+test('pan/mono: 기본값은 center·stereo이고 site patch가 우선한다', () => {
+  const base = resolveSettings(undefined, undefined);
+  assert.equal(base.pan, 0);
+  assert.equal(base.mono, false);
+  const result = resolveSettings({ pan: 0.5 }, { pan: -0.3, mono: true });
+  assert.equal(result.pan, -0.3);
+  assert.equal(result.mono, true);
+});
+
+test('pan은 -1~1로 클램프되고 mono는 boolean으로 강제된다', () => {
+  const result = clampSettings({ ...DEFAULT_SETTINGS, pan: 5, mono: 1 });
+  assert.equal(result.pan, 1);
+  assert.equal(result.mono, true);
+  // pan/mono가 없는 구버전 저장값은 resolveSettings가 기본값으로 채운다
+  const legacy = resolveSettings(undefined, { targetLufs: -30 });
+  assert.equal(legacy.pan, 0);
+  assert.equal(legacy.mono, false);
+});
+
+test('숫자가 아닌 값(NaN/null/문자열)은 기본값으로 대체된다 — storage 손상 방어', () => {
+  // storage.sync는 JSON 직렬화라 과거에 쓰인 NaN이 null로 돌아온다. Math.max(min, null)=0
+  // 오염이나 NaN 통과(→ 워클릿 게인 영구 NaN = 무음)가 없어야 한다.
+  const result = resolveSettings(undefined, {
+    targetLufs: null,
+    comp: { ratio: 'x', threshold: NaN },
+    eq: { low: {} },
+    pan: null,
+  });
+  assert.equal(result.targetLufs, DEFAULT_SETTINGS.targetLufs);
+  assert.equal(result.comp.ratio, DEFAULT_SETTINGS.comp.ratio);
+  assert.equal(result.comp.threshold, DEFAULT_SETTINGS.comp.threshold);
+  assert.equal(result.eq.low, DEFAULT_SETTINGS.eq.low);
+  assert.equal(result.pan, DEFAULT_SETTINGS.pan);
+  for (const v of [result.targetLufs, result.comp.ratio, result.pan]) {
+    assert.ok(Number.isFinite(v));
+  }
+});
+
 test('debounce: 연속 호출은 마지막 인자로 1회만 실행된다', async () => {
   const { debounce } = await import('../settings-logic.js');
   const calls = [];
@@ -57,6 +95,17 @@ test('debounce: 연속 호출은 마지막 인자로 1회만 실행된다', asyn
   assert.equal(calls.length, 0, '대기 시간 전에는 실행되면 안 된다');
   await new Promise((r) => setTimeout(r, 60));
   assert.deepEqual(calls, [3]);
+});
+
+test('debounce: cancel()은 대기 중인 호출을 버린다 — reset이 이전 값으로 되살아나지 않게', async () => {
+  const { debounce } = await import('../settings-logic.js');
+  const calls = [];
+  const fn = debounce((v) => calls.push(v), 20);
+  fn('stale');
+  fn.cancel();
+  fn.flush(); // cancel 후 flush도 아무것도 실행하면 안 된다
+  await new Promise((r) => setTimeout(r, 60));
+  assert.deepEqual(calls, []);
 });
 
 test('debounce: flush()는 대기 중인 호출을 즉시 실행하고, 없으면 아무것도 안 한다', async () => {

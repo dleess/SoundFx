@@ -136,6 +136,19 @@
             android:valueTo="24"
             android:stepSize="1" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_balance" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="-1"
+            android:valueTo="1"
+            android:stepSize="0.05" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

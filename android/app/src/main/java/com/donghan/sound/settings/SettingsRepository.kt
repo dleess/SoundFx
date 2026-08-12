@@ -8,10 +8,17 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 private val Context.settingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "sound_settings")
+
+// 프로세스 스코프 쓰기 — lifecycleScope에 태우면 화면 회전/종료 타이밍에 저장이 취소된다.
+private val writeScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 // 순수 매핑 로직(직렬화/기본값/클램프) — DataStore/Context 없이도 단위 테스트 가능하도록 분리.
 // 슬라이더 범위는 extension/popup.html의 min/max와 패리티 유지.
@@ -25,6 +32,7 @@ object SettingsCodec {
     private val KEY_EQ_LOW = floatPreferencesKey("eq_low")
     private val KEY_EQ_MID = floatPreferencesKey("eq_mid")
     private val KEY_EQ_HIGH = floatPreferencesKey("eq_high")
+    private val KEY_BALANCE = floatPreferencesKey("balance")
 
     fun clamp(settings: SoundSettings): SoundSettings = SoundSettings(
         enabled = settings.enabled,
@@ -40,6 +48,7 @@ object SettingsCodec {
             mid = settings.eq.mid.coerceIn(-24f, 24f),
             high = settings.eq.high.coerceIn(-24f, 24f),
         ),
+        balance = settings.balance.coerceIn(-1f, 1f),
     )
 
     fun write(prefs: MutablePreferences, settings: SoundSettings) {
@@ -53,6 +62,7 @@ object SettingsCodec {
         prefs.set(KEY_EQ_LOW, c.eq.low)
         prefs.set(KEY_EQ_MID, c.eq.mid)
         prefs.set(KEY_EQ_HIGH, c.eq.high)
+        prefs.set(KEY_BALANCE, c.balance)
     }
 
     fun read(prefs: Preferences): SoundSettings {
@@ -72,6 +82,7 @@ object SettingsCodec {
                     mid = prefs.get(KEY_EQ_MID) ?: d.eq.mid,
                     high = prefs.get(KEY_EQ_HIGH) ?: d.eq.high,
                 ),
+                balance = prefs.get(KEY_BALANCE) ?: d.balance,
             )
         )
     }
@@ -81,7 +92,8 @@ class SettingsRepository(private val context: Context) {
     val settingsFlow: Flow<SoundSettings> =
         context.settingsDataStore.data.map { SettingsCodec.read(it) }
 
-    suspend fun save(settings: SoundSettings) {
-        context.settingsDataStore.edit { SettingsCodec.write(it, settings) }
+    /** fire-and-forget 저장 (프로세스 스코프 — 호출자 수명과 무관하게 완료된다). */
+    fun save(settings: SoundSettings) {
+        writeScope.launch { context.settingsDataStore.edit { SettingsCodec.write(it, settings) } }
     }
 }

@@ -25,6 +25,14 @@ class SessionRegistryTest {
     }
 
     @Test
+    fun `한도를 넘으면 가장 오래된 세션부터 축출된다`() {
+        val r = SessionRegistry()
+        for (s in 1..10) r.open(s)
+
+        assertEquals((3..10).toList(), r.active()) // MAX_SESSIONS=8, 1·2는 축출됨
+    }
+
+    @Test
     fun `세션이 하나라도 있으면 폴백하지 않는다`() {
         val r = SessionRegistry()
         r.open(12)

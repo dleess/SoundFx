@@ -54,12 +54,19 @@ class SettingsCodecTest {
             targetDb = -18f,
             comp = SoundSettings.Comp(threshold = -12f, ratio = 3f, attack = 0.02f, release = 0.4f),
             eq = SoundSettings.Eq(low = 3f, mid = -2f, high = 6f),
+            balance = -0.4f,
         )
 
         SettingsCodec.write(prefs, settings)
         val result = SettingsCodec.read(prefs)
 
         assertEquals(settings, result)
+    }
+
+    @Test
+    fun `clamp bounds balance to minus one to one`() {
+        assertEquals(1f, SettingsCodec.clamp(SoundSettings(balance = 5f)).balance)
+        assertEquals(-1f, SettingsCodec.clamp(SoundSettings(balance = -5f)).balance)
     }
 
     @Test

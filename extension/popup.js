@@ -10,6 +10,7 @@ import { DEFAULT_SETTINGS, siteKey, resolveSettings, clampSettings, debounce } f
 let hostname = '';
 let activeTabId = null;
 let settings = DEFAULT_SETTINGS;
+let dirty = false; // 로드 완료 전 사용자가 이미 편집함 — 늦게 도착한 저장값으로 덮어쓰지 않기 위한 플래그
 
 const $ = (id) => document.getElementById(id);
 const enabledToggle = $('enabled-toggle');
@@ -31,7 +32,13 @@ const fields = {
   'eq.low': { input: $('eq-low'), out: $('eq-low-val'), fmt: (v) => `${v} dB` },
   'eq.mid': { input: $('eq-mid'), out: $('eq-mid-val'), fmt: (v) => `${v} dB` },
   'eq.high': { input: $('eq-high'), out: $('eq-high-val'), fmt: (v) => `${v} dB` },
+  pan: {
+    input: $('pan'),
+    out: $('pan-val'),
+    fmt: (v) => (v === 0 ? 'center' : v < 0 ? `L ${Math.round(-v * 100)}%` : `R ${Math.round(v * 100)}%`),
+  },
 };
+const monoToggle = $('mono-toggle');
 
 function get(obj, path) {
   return path.split('.').reduce((o, k) => o[k], obj);
@@ -39,6 +46,7 @@ function get(obj, path) {
 
 function render() {
   enabledToggle.checked = settings.enabled;
+  monoToggle.checked = settings.mono;
   for (const [path, f] of Object.entries(fields)) {
     const v = get(settings, path);
     f.input.value = v;
@@ -47,7 +55,7 @@ function render() {
 }
 
 function readInputs() {
-  const raw = { enabled: enabledToggle.checked, comp: {}, eq: {} };
+  const raw = { enabled: enabledToggle.checked, mono: monoToggle.checked, comp: {}, eq: {} };
   for (const [path, f] of Object.entries(fields)) {
     const v = Number(f.input.value);
     const [group, key] = path.split('.');
@@ -78,6 +86,7 @@ function sendToTab(s) {
 const writeSite = debounce((s) => storageSet({ [siteKey(hostname)]: s }), 300);
 
 function persist() {
+  dirty = true;
   settings = readInputs();
   render();
   if (!hostname) return; // 지원 안 되는 탭(예: chrome://)에서는 저장/전송하지 않는다.
@@ -89,6 +98,7 @@ function loadAndRender() {
   const key = hostname ? siteKey(hostname) : null;
   const keys = key ? ['defaults', key] : ['defaults'];
   chrome.storage.sync.get(keys, (data) => {
+    if (dirty) return; // 로드보다 먼저 사용자가 조작함 — 그 입력이 진실이다
     settings = resolveSettings(data.defaults, key ? data[key] : undefined);
     render();
   });
@@ -102,7 +112,8 @@ function init() {
       return;
     }
     activeTabId = tab.id;
-    chrome.tabs.sendMessage(tab.id, { type: 'get-hostname' }, (resp) => {
+    // frameId 0 고정 — all_frames 주입이라 아무 프레임이나 먼저 답하면 hostname이 비결정적이 된다.
+    chrome.tabs.sendMessage(tab.id, { type: 'get-hostname' }, { frameId: 0 }, (resp) => {
       hostname = (!chrome.runtime.lastError && resp?.hostname) || '';
       hostLabel.textContent = hostname || '(unsupported page)';
       bypassBadge.hidden = !resp?.bypassed;
@@ -124,6 +135,7 @@ defaultsBtn.addEventListener('click', () => {
 
 resetBtn.addEventListener('click', () => {
   if (!hostname) return;
+  writeSite.cancel(); // 대기 중인 디바운스 쓰기가 reset 직후 사이트 키를 되살리는 것을 방지
   chrome.storage.sync.remove(siteKey(hostname), () => {
     chrome.storage.sync.get(['defaults'], (data) => {
       settings = resolveSettings(data.defaults, undefined);

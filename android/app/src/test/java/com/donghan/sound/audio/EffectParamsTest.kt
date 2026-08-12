@@ -87,6 +87,23 @@ class EffectParamsTest {
     }
 
     @Test
+    fun `밸런스는 반대쪽 채널만 감쇠하고 -1~1로 클램프된다`() {
+        val center = EffectParams.from(SoundSettings())
+        assertEquals(center.inputGainDb, center.channelGainDb(0), 1e-4f)
+        assertEquals(center.inputGainDb, center.channelGainDb(1), 1e-4f)
+
+        val right = EffectParams.from(SoundSettings(balance = 0.5f)) // 우 치우침 → 좌 감쇠
+        assertEquals(right.inputGainDb - BALANCE_MAX_ATTEN_DB * 0.5f, right.channelGainDb(0), 1e-4f)
+        assertEquals(right.inputGainDb, right.channelGainDb(1), 1e-4f)
+
+        val left = EffectParams.from(SoundSettings(balance = -1f)) // 좌 치우침 → 우 최대 감쇠
+        assertEquals(left.inputGainDb, left.channelGainDb(0), 1e-4f)
+        assertEquals(left.inputGainDb - BALANCE_MAX_ATTEN_DB, left.channelGainDb(1), 1e-4f)
+
+        assertEquals(1f, EffectParams.from(SoundSettings(balance = 9f)).balance, 1e-4f)
+    }
+
+    @Test
     fun `리미터는 항상 0dBFS 아래에서 잡는다`() {
         val p = EffectParams.from(SoundSettings())
 

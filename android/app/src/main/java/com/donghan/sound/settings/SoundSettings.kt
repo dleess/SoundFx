@@ -7,6 +7,8 @@ data class SoundSettings(
     val targetDb: Float = -24f,
     val comp: Comp = Comp(),
     val eq: Eq = Eq(),
+    /** 좌우 밸런스 -1(좌)~1(우). extension의 pan과 패리티. 모노 다운믹스는 Android 세션 이펙트로 불가능해 제외. */
+    val balance: Float = 0f,
 ) {
     data class Comp(
         val threshold: Float = -24f,

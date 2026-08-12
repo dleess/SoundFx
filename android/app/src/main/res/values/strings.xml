@@ -13,6 +13,7 @@
     <string name="label_eq_low">Low</string>
     <string name="label_eq_mid">Mid</string>
     <string name="label_eq_high">High</string>
+    <string name="label_balance">Balance (L / R)</string>
     <string name="btn_test_quiet">Play quiet tone</string>
     <string name="btn_test_loud">Play loud tone</string>
     <string name="status_running">Service status: running</string>

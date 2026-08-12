@@ -52,7 +52,9 @@ class NormalizerProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
     this.gain = 1;
-    this.enabled = true;
+    // 설정이 도착하기 전에는 투명하게 — storage 읽기가 재생 시작보다 늦는 첫 수백 ms 동안
+    // 기본 타깃으로 AGC가 돌면 설정 도착 순간 레벨 점프가 들린다. (updateWorklet이 곧 켠다)
+    this.enabled = false;
     this.targetLufs = TARGET_LUFS_DEFAULT;
     // K-가중 미터 상태 (gain-logic.js createLoudnessMeter와 동일 로직)
     this.coeffs = kWeightingCoeffs(sampleRate);
@@ -64,7 +66,8 @@ class NormalizerProcessor extends AudioWorkletProcessor {
     // content.js의 updateWorklet()이 {targetLufs, enabled}를 보낸다.
     this.port.onmessage = (e) => {
       const { targetLufs, enabled } = e.data || {};
-      if (typeof targetLufs === 'number') this.targetLufs = targetLufs;
+      // NaN은 structured clone을 통과해 게인을 영구 NaN(무음)으로 만든다 — isFinite로 차단
+      if (Number.isFinite(targetLufs)) this.targetLufs = targetLufs;
       if (typeof enabled === 'boolean') this.enabled = enabled;
     };
   }

@@ -15,7 +15,15 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.donghan.sound.R
+import com.donghan.sound.settings.SettingsRepository
 import com.donghan.sound.settings.SoundSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * 상주 포그라운드 서비스. 다른 앱의 오디오 세션 브로드캐스트를 받아 이펙트를 붙인다.
@@ -28,6 +36,8 @@ class SoundService : Service() {
     private val registry = SessionRegistry()
     private val engine = EffectEngine()
     private var settings = SoundSettings()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var restoreJob: Job? = null // 인텐트 설정이 먼저 도착하면 취소 — 늦은 DataStore 복원이 덮어쓰지 않게
 
     private val sessionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -55,11 +65,17 @@ class SoundService : Service() {
         }
         ContextCompat.registerReceiver(this, sessionReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
         Log.i(TAG, "service started, receiver registered")
-        syncEffects()
+        // START_STICKY 재시작은 intent가 null이라 설정이 안 온다 — 기본값(enabled=true)으로
+        // 이펙트를 붙이면 사용자가 꺼둔 처리가 몰래 되살아난다. DataStore에서 복원 후 sync.
+        restoreJob = scope.launch {
+            settings = SettingsRepository(applicationContext).settingsFlow.first()
+            syncEffects()
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ACTION_UPDATE_SETTINGS) {
+            restoreJob?.cancel()
             settings = settingsFrom(intent, settings)
             Log.i(TAG, "settings updated: $settings")
             syncEffects()
@@ -68,6 +84,7 @@ class SoundService : Service() {
     }
 
     override fun onDestroy() {
+        scope.cancel()
         runCatching { unregisterReceiver(sessionReceiver) }
         engine.release()
         Log.i(TAG, "service stopped")
@@ -126,6 +143,7 @@ class SoundService : Service() {
         private const val EXTRA_EQ_LOW = "eq.low"
         private const val EXTRA_EQ_MID = "eq.mid"
         private const val EXTRA_EQ_HIGH = "eq.high"
+        private const val EXTRA_BALANCE = "balance"
 
         fun start(context: Context) {
             ContextCompat.startForegroundService(context, Intent(context, SoundService::class.java))
@@ -148,6 +166,7 @@ class SoundService : Service() {
                 .putExtra(EXTRA_EQ_LOW, settings.eq.low)
                 .putExtra(EXTRA_EQ_MID, settings.eq.mid)
                 .putExtra(EXTRA_EQ_HIGH, settings.eq.high)
+                .putExtra(EXTRA_BALANCE, settings.balance)
             ContextCompat.startForegroundService(context, intent)
         }
 
@@ -165,6 +184,7 @@ class SoundService : Service() {
                 mid = intent.getFloatExtra(EXTRA_EQ_MID, current.eq.mid),
                 high = intent.getFloatExtra(EXTRA_EQ_HIGH, current.eq.high),
             ),
+            balance = intent.getFloatExtra(EXTRA_BALANCE, current.balance),
         )
     }
 }

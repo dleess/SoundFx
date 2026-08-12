@@ -20,6 +20,7 @@ import {
   SHELF_F0,
   SHELF_GAIN_DB,
   SHELF_Q,
+  SHELF_VB_EXP,
   HIGHPASS_F0,
   HIGHPASS_Q,
 } from '../gain-logic.js';
@@ -71,6 +72,8 @@ test('미터: 400ms 창이 차기 전에는 null (워밍업)', () => {
   for (let i = 0; i < warmupBlocks - 1; i++) {
     assert.equal(meter.process([block]), null, `${i}번째 블록에서 이미 측정값이 나왔다`);
   }
+  // 경계 반대편도 고정: 창이 정확히 차는 블록부터는 측정값이 나와야 한다 (>= off-by-one 방지)
+  assert.ok(Number.isFinite(meter.process([block])), '창이 찬 직후에도 null이면 창 경계가 밀린 것');
 });
 
 test('미터: 저역은 하이패스로 깎여 같은 진폭이라도 라우드니스가 낮다', () => {
@@ -180,6 +183,7 @@ test('worklet 상수가 gain-logic과 일치한다', () => {
   assert.equal(literal('SHELF_F0'), SHELF_F0);
   assert.equal(literal('SHELF_GAIN_DB'), SHELF_GAIN_DB);
   assert.equal(literal('SHELF_Q'), SHELF_Q);
+  assert.equal(literal('SHELF_VB_EXP'), SHELF_VB_EXP);
   assert.equal(literal('HIGHPASS_F0'), HIGHPASS_F0);
   assert.equal(literal('HIGHPASS_Q'), HIGHPASS_Q);
 });

@@ -56,7 +56,6 @@ class EffectEngine {
 
     private fun apply(sessionId: Int, fx: DynamicsProcessing, p: EffectParams) {
         try {
-            fx.setInputGainAllChannelsTo(p.inputGainDb)
             p.eqBands.forEachIndexed { i, b ->
                 fx.setPreEqBandAllChannelsTo(i, DynamicsProcessing.EqBand(true, b.cutoffHz, b.gainDb))
             }
@@ -64,10 +63,18 @@ class EffectEngine {
                 fx.setMbcBandAllChannelsTo(i, mbcBand(b))
             }
             fx.setLimiterAllChannelsTo(limiter(p.limiter))
+            // 채널별 게인 = 정규화 입력 게인 + 밸런스 감쇠 (0=좌, 1=우). 실제 채널 수는
+            // 네이티브 이펙트가 정할 수 있어(모노 세션) 채널별 실패를 격리한다 — 게인 일부가
+            // 실패해도 아래 setEnabled까지는 반드시 도달한다.
+            for (ch in 0 until CHANNEL_COUNT) {
+                runCatching { fx.setInputGainbyChannel(ch, p.channelGainDb(ch)) }
+                    .onFailure { Log.w(TAG, "input gain failed session=$sessionId ch=$ch: ${it.message}") }
+            }
             fx.setEnabled(p.enabled)
             Log.i(
                 TAG,
                 "apply session=$sessionId enabled=${p.enabled} inputGain=${p.inputGainDb}dB " +
+                    "balance=${p.balance} " +
                     "eq=${p.eqBands.map { it.gainDb }} thr=${p.mbcBands[0].thresholdDb}dB " +
                     "ratio=${p.mbcBands[0].ratio} atk=${p.mbcBands[0].attackMs}ms " +
                     "rel=${p.mbcBands[0].releaseMs}ms makeup=${p.mbcBands[0].postGainDb}dB " +
@@ -87,7 +94,7 @@ class EffectEngine {
             /* postEqInUse = */ false, BAND_COUNT,
             /* limiterInUse = */ true,
         ).apply {
-            setInputGainAllChannelsTo(p.inputGainDb)
+            // 입력 게인은 여기서 넣지 않는다 — attach 직후 apply()가 채널별(밸런스 포함)로 항상 설정한다.
             setPreEqAllChannelsTo(DynamicsProcessing.Eq(true, true, BAND_COUNT).also { eq ->
                 p.eqBands.forEachIndexed { i, b ->
                     eq.setBand(i, DynamicsProcessing.EqBand(true, b.cutoffHz, b.gainDb))

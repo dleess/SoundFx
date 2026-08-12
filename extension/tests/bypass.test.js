@@ -76,6 +76,20 @@ test('음소거 중에는 무음이 이어져도 bypass 판정을 내리지 않�
   assert.equal(last.bypass, false);
 });
 
+test('volume 0은 muted와 동일 취급 — 사이트 볼륨 슬라이더 0에서 오탐 bypass 금지', () => {
+  // 브라우저는 element volume을 소스단에서 스케일하므로 volume=0의 출력은 CORS taint와
+  // 똑같은 전부-0 버퍼다. 정상 요소를 영구 우회시키면 안 된다.
+  const detector = createSilenceDetector({ windowMs: 300, checkIntervalMs: 100 });
+  let t = 0;
+  let last = { bypass: false };
+  for (let i = 0; i < 5; i++) {
+    t += 0.1;
+    last = detector.sample({ buffer: ZERO, paused: false, muted: false, volume: 0, currentTime: t });
+  }
+  assert.equal(last.bypass, false);
+  assert.equal(last.consecutiveSilent, 0);
+});
+
 test('currentTime이 증가하지 않으면(재생 전/정지 상태) bypass 판정을 내리지 않는다', () => {
   const detector = createSilenceDetector({ windowMs: 300, checkIntervalMs: 100 });
   let last = { bypass: false };

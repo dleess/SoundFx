@@ -21,6 +21,10 @@ private const val ASSUMED_PROGRAM_DB = -20f
 
 // extension/settings-logic.js RANGES와 동일한 클램프 범위 (설정은 인텐트 extra로 들어오므로 신뢰 경계).
 private val TARGET_RANGE = -60f..0f
+private val BALANCE_RANGE = -1f..1f
+
+/** 밸런스 극단(-1/1)에서 반대쪽 채널을 낮추는 최대 감쇠량(dB). 완전 뮤트가 아니라 확실히 치우치는 수준. */
+const val BALANCE_MAX_ATTEN_DB = 24f
 private val THRESHOLD_RANGE = -100f..0f
 private val RATIO_RANGE = 1f..20f
 private val TIME_RANGE = 0f..1f
@@ -51,7 +55,16 @@ data class EffectParams(
     val eqBands: List<EqBandParams>,
     val mbcBands: List<MbcBandParams>,
     val limiter: LimiterParams,
+    /** 좌우 밸런스 -1(좌)~1(우). 반대쪽 채널의 입력 게인을 낮추는 방식으로 적용된다. */
+    val balance: Float,
 ) {
+    /**
+     * 채널별 최종 입력 게인(dB). channel 0=좌, 1=우 — 치우친 반대쪽 채널만 감쇠한다.
+     * ponytail: 입력단 감쇠라 MBC 압축이 채널 간 차이를 일부 줄인다 — 밸런스가 약하게 들리면 리미터 postGain 단으로 이동.
+     */
+    fun channelGainDb(channel: Int): Float =
+        inputGainDb - BALANCE_MAX_ATTEN_DB * maxOf(0f, if (channel == 0) balance else -balance)
+
     companion object {
         fun from(s: SoundSettings): EffectParams {
             val target = s.targetDb.coerceIn(TARGET_RANGE)
@@ -76,6 +89,7 @@ data class EffectParams(
                     )
                 },
                 limiter = LimiterParams(),
+                balance = s.balance.coerceIn(BALANCE_RANGE),
             )
         }
 
