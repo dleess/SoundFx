@@ -1,65 +1,49 @@
-# HANDOFF: SoundFx — 3-스토어 전부 심사 제출됨 (Chrome/iOS/Play). 남은 것: 심사 대응 + Play 테스터 12명×14일 → 프로덕션 + 실기기 검증
+# HANDOFF: Chrome 공개·Play closed 테스트 라이브·iOS 심사 대기 — 남은 것: 테스터 12명×14일, 심사 대응, 다음 배포 사이클(팬/모노+버그픽스), 실기기 검증
 
-**Written:** 2026-08-09 · **Working dir:** `/Users/donghanlee/work/projects/SoundFx` · **Branch:** `main` (origin: github.com/dleess/SoundFx)
+**Written:** 2026-08-12 · **Working dir:** `/Users/donghanlee/work/projects/SoundFx` · **Branch:** `main` (origin: github.com/dleess/SoundFx, 로컬이 origin보다 1커밋 앞섬 — push 안 됨)
 
 ## Goal
-YouTube 등에서 곡마다 다른 라우드니스를 자동 정규화하는 앱. 코드/검증은 이전 세션에서 완료. 이번 세션의 목표였던 스토어 배포는 제출 가능한 데까지 완료. 후속 done = (1) 3개 스토어 심사 통과·공개, (2) 실기기 YouTube 세션 브로드캐스트 검증.
+3개 스토어(Chrome/iOS/Play) 정식 공개 + 실기기 YouTube 세션 브로드캐스트 검증. Play는 테스터 12명이 14일 유지되어야 프로덕션 신청 가능.
 
 ## Status
-- **Chrome 웹스토어**: 심사 제출됨. 계정 lee.donghan. zip은 `extension/`에서 manifest+JS+popup+icons만 패키징 (tests/package.json 제외).
-- **App Store (iOS)**: v1.0 (build 1) `WAITING_FOR_REVIEW`. 앱 ID **6799607827**, bundle id `com.donghan.soundfx`(+`.Extension`), 스토어명 "SoundFx: Volume Normalizer" ("SoundFx" 단독은 선점됨). 통지: kbsi.bionmr@gmail.com.
-- **Play 스토어**: 내부 테스트 트랙 Active, v0.1.0 (versionCode 1). 앱명 "SoundFx: Volume Normalizer", applicationId `com.donghan.soundfx`. 테스터: lee.donghan, kbsi.bionmr. **프로덕션 불가: 개인 계정 정책상 비공개 테스트(12+명, 14일) 후 프로덕션 액세스 신청 필요.**
-- **Play 스토어 등록정보: 입력 완료·저장됨** (short/full description, 아이콘 512px, feature graphic 1024×500, 폰 스크린샷 4장 + 7"/10" 태블릿 각 2장).
-- **Play 앱 설정 설문 11/11 전부 완료**: Privacy policy URL, Ads(없음), Sign in details(없음), 콘텐츠 등급(IARC 전연령), Target audience(18+), Data safety(수집 없음), Advertising ID(없음), Government/Financial/Health(전부 없음), Foreground service(SPECIAL_USE — 데모 영상 https://youtube.com/shorts/nvh1fQeZXvE + 사유 저장), 카테고리(Music & Audio), 연락처(lee.donghan@gmail.com).
-- **Play 심사 제출 완료 (2026-08-10)**: "Send app for review" 잠금의 진짜 원인은 서버 지연이 아니라 **심사 대상 릴리스(closed/production) 부재**였음 — 내부 테스트는 심사를 트리거하지 않음. 비공개 테스트 Alpha 트랙 설정(국가 177개, 테스터 리스트 2개 = SoundFx testers 2명 + 내부 테스터 25명, 피드백 이메일 lee.donghan) + v0.1.0 릴리스 생성 직후 버튼이 "Submit 15 changes for review"로 활성화 → 제출됨. 현재 **"Changes in review"** (통과 시 정식 앱명 표시 + closed 테스트 라이브).
-- **프로덕션 신청("Apply for production") 조건 3개 미충족**: ① closed 릴리스 게시(심사 통과 시 자동) ② 테스터 12명 opt-in (현재 0명 — opt-in 링크는 심사 통과 후 생성됨) ③ 12명 유지 14일 연속. **14일 타이머는 12명 모인 시점부터 시작** — 심사 통과 알림(lee.donghan@gmail.com) 받으면 즉시 테스터 모집할 것.
-- **macOS Safari 확장**: 미배포 (iOS만 제출됨).
-- 커밋 메시지 전체 영어화(히스토리 재작성), README/PRIVACY.md 추가됨.
+- **Chrome 웹스토어: 심사 통과, 공개됨** (2026-08-12 확인) — https://chromewebstore.google.com/detail/soundfx/fmfengepahkecmalcolbkkjmdganegfb. 단 공개된 빌드는 구버전 코드(아래 커밋 2개 미포함).
+- **Play: 심사 통과 (2026-08-10), closed 테스트(Alpha) 라이브.** v0.1.0, 테스터 opt-in **1/12명** (2026-08-12 기준). opt-in 링크: https://play.google.com/apps/testing/com.donghan.soundfx (테스터 명단 등록 계정만 가능 — 명단: "SoundFx testers" 2명 + 내부 테스터 25명). **12명 모인 시점부터 14일 타이머 시작.** Play Console 앱 ID 4973170189162578710, 개발자 계정 ID 5578432782521884610.
+- **App Store (iOS): v1.0 (build 1) WAITING_FOR_REVIEW** (2026-08-08 제출, 2026-08-12 ASC API로 확인 — 4일째 대기, 정상 범위). 새 빌드 제출 시 심사 줄 리셋되므로 통과 전까지 재제출 금지.
+- **테스터 모집 메일 발송됨 (2026-08-11)**: lee.donghan@gmail.com으로 Gmail 웹(Chrome 자동화, 발신 계정 lee.donghan)에서 발송. 앱 소개+참여 방법+opt-in 링크 포함.
+- **커밋 `4781f8f` (2026-08-12): 팬/모노 기능 + 버그 14건 수정 + 리팩토링 — 어느 스토어에도 미배포.** 이전 수정 `4acb387`(리뷰 결함 8건)도 미배포. 3개 스토어 모두 이 두 커밋 이전 코드로 돌고 있음. 의도적 보류: iOS 심사 줄 유지 + Play 14일 테스트 안정성. 다음 사이클(v1.1/v0.2)에 일괄 배포하기로 결정됨.
+- 테스트: extension `node --test tests/*.test.js` 36/36, Android `./gradlew test` 25/25 (2026-08-12 통과 확인). 워킹 트리 클린(추적 외: .DS_Store, .omo/만).
 
 ## What worked
-- **App Store Connect API로 거의 전부 자동화 가능**: bundle id 등록, 프로파일 생성, 버전 메타데이터, 스크린샷 업로드(reserve→PUT→commit MD5), 연령등급, 가격(free는 local id `${price1}` 필요), 심사 제출(reviewSubmissions 플로우). 키: `~/.appstoreconnect/private_keys/AuthKey_CGV9U72GU7.p8`, Issuer `9c0e6248-43c6-405d-8c0b-943a8e02ec61`, 팀 `6536ULS8SC`. PyJWT venv 만들어 사용. **[still applied]**
-- 서명: Xcode cloud signing 권한 없어도 API로 IOS_APP_STORE 프로파일 2개 만들어 수동 서명 export 가능 (ExportOptions.plist에 provisioningProfiles 명시). 배포 인증서는 키체인에 있음 (팀 6536ULS8SC). **[still applied]**
-- 심사 연락처는 기존 앱 MolViewApp 것 재사용 (+82 10-58739884, kbsi.bionmr). **[still applied]**
-- Play Console·App Store Connect 웹은 Claude in Chrome 자동화 가능. AAB 업로드는 숨은 file input에 file_upload로 직접 주입. **[still applied]**
-- **Play Console 그래픽 자산 업로드의 정석 플로우**: (1) 대상 슬롯의 "Add assets" 클릭 → 슬롯이 파랗게 활성화되고 우측 자산 패널이 그 슬롯에 바인딩됨. (2) 신규 파일은 패널의 숨은 `input[type=file]`에 file_upload — 업로드 직후엔 자동 선택돼 있어 바로 "Add" 버튼(패널 우하단)으로 슬롯에 들어감. (3) **기존 자산 재사용은 체크박스가 아니라**: 썸네일 hover → 우측에 나타나는 → 아이콘 클릭 → 상세 보기의 "Add" 버튼. 슬롯당 자산 1개씩 back(<)으로 돌아가며 반복. **[still applied]**
-- 스토어 자산 규격 변환은 전부 sips로 해결: 아이콘 512², feature graphic은 아이콘 400²를 1024×500 흰 배경 패딩, 폰/태블릿 스크린샷은 1080×2400을 1350×2400(9:16) 흰 패딩. **[still applied]**
-- Play 설문의 material-radio는 JS `r.click()`이 정상 동작 — 단 **검증은 wrapper class가 아니라 내부 `input`의 `aria-checked`로** 할 것 (wrapper엔 checked class가 안 붙어 성공을 실패로 오판하기 쉬움). Yes/No 일괄 선택: `document.querySelectorAll('material-radio')` 필터 후 click. **[still applied]**
-- 설문 지름길: Target audience에서 18+만 선택하면 App details/Ads/Store presence 단계가 통째로 스킵되고, Data safety 첫 질문 "수집하나?"에 No면 나머지 단계 전부 스킵됨.
-- FGS 데모 영상 제작 파이프라인: 에뮬레이터 `adb shell screenrecord --time-limit 55` 백그라운드 + 토글(TAB→DPAD_CENTER)·알림(`cmd statusbar expand-notifications`)·버튼 tap 시나리오 → pull → 사용자가 YouTube unlisted 업로드. 원본 `~/Desktop/soundfx-fgs-demo.mp4`. **[still applied]**
+- **iOS 상태 실시간 확인**: PyJWT venv에서 ASC API 호출. 키 `~/.appstoreconnect/private_keys/AuthKey_CGV9U72GU7.p8`, Issuer `9c0e6248-43c6-405d-8c0b-943a8e02ec61`, kid `CGV9U72GU7`, 앱 ID 6799607827. `GET /v1/apps/6799607827/appStoreVersions?limit=5` → appStoreState 확인. (이 세션의 스크립트는 세션 스크래치패드라 소멸 — 위 정보로 재작성, ES256 JWT 20분 만료.) **[재사용 가능]**
+- **Chrome 공개 여부는 대시보드 없이 확인 가능**: `curl -s "https://chromewebstore.google.com/search/SoundFx" | grep -oE '/detail/[a-z-]+/[a-p]{32}'` → detail 경로가 나오면 공개된 것. **[재사용 가능]**
+- **Play Console 웹은 Claude in Chrome 자동화 가능** (계정 lee.donghan, 개발자 "treasurehunter"). closed 트랙 opt-in 링크는 Closed testing→Manage track→Testers 탭 하단 "Copy link" 클릭 후 **`pbpaste`로 OS 클립보드에서 읽기** (페이지 내 JS clipboard.readText는 CDP 타임아웃). **[재사용 가능]**
+- Xcode 프로젝트가 `extension/` 파일을 상대경로로 직접 참조 (`safari/SoundFx/SoundFx.xcodeproj/project.pbxproj`의 `path = ../../../extension/*.js`) — **extension 수정 = Chrome+iOS Safari 동시 적용, 파일 복사 불필요**. **[구조 확인됨]**
+- 다관점 병렬 서브에이전트 리뷰(재사용/단순화/효율/깊이 + 영역별 버그 헌팅)로 실버그 14건 발견·수정 — 전부 `4781f8f`에 포함. **[still applied]**
 
 ## What didn't work
-- **Chrome 웹스토어 대시보드는 확장 자동화 원천 차단** ("The extensions gallery cannot be scripted") — 파일을 Desktop에 준비해 주고 사용자가 직접 업로드해야 함. 재시도 금지.
-- ASC `appDataUsages` API 폐지됨 — 개인정보 신고("Data Not Collected")는 웹 UI로만. 이미 게시 완료라 재작업 불필요.
-- Safari 확장 manifest description 112자 제한 (altool 90849) — 현재 110자로 맞춰져 있음. 늘리지 말 것.
-- `ageRatingDeclarations`는 appStoreVersions가 아닌 **appInfos** 경유, enum 13개+boolean 10개(ageAssurance 포함) 혼재 — 전 필드 한 번에 PATCH해야 함.
-- keytool 등 JDK 도구는 JAVA_HOME 없이 침묵 실패 — `export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=$HOME/Library/Android/sdk` 필수 (기존 함정 재확인).
-- **Play Console 자산 패널에서 좌표 클릭으로 체크박스 선택 시도 — 전부 무효** (4회 반복 실패). find가 "checkbox"라고 보고해도 클릭이 선택으로 등록되지 않음. 위의 hover→→→Add 플로우만 신뢰할 것. 재시도 금지.
-- 자산 패널이 열린 상태에서 stale ref 클릭 → 엉뚱한 "Manage translations" 드롭다운이 열림. 패널 열림/닫힘 후에는 ref가 무효화되므로 **매 단계 find로 ref를 다시 얻거나 스크린샷으로 좌표 확인 후 클릭**할 것.
-- `build.gradle.kts`의 `android{}` 블록 안에서 `java.util.Properties` 직접 참조 — Kotlin DSL이 `java`를 다른 심볼로 해석해 컴파일 실패. 파일 최상단 `import java.util.Properties` + 톱레벨 val로 해결(현재 코드가 그 형태).
-- Play Console 다이얼로그에서 form_input으로 값만 넣고 저장 버튼을 좌표로 잘못 클릭 → "Discard changes?" 유발, 입력 소실 (연락처 이메일 재작업). 다이얼로그의 저장 버튼은 **find로 ref를 얻어 클릭**하고, 저장 확인 토스트/재로드 검증까지 할 것.
-- 설문 페이지의 form_input 값은 저장 전 페이지 이동 시 소실됨 — FGS 설명 텍스트도 한 번 재입력했음. 입력→즉시 저장 순서 엄수.
+- **gws CLI 미인증** (`gws auth status` → auth_method none, `~/.config/gws/client_secret.json` 없음) — Gmail API 발송 불가, OAuth 셋업은 사용자 개입 필요. Gmail 웹 자동화로 우회했음. 재시도하려면 nopal-setup 스킬 참조.
+- Play Console "Copy link" 후 페이지 컨텍스트에서 `navigator.clipboard.readText()` → CDP 45초 타임아웃 (렌더러 블록). `pbpaste`를 쓸 것. 재시도 금지.
+- Chrome 웹스토어 대시보드 확장 자동화 원천 차단 (기존 확인) — 업데이트 zip 업로드는 사용자가 직접. 재시도 금지.
+- **Android 모노 다운믹스는 구현 불가로 결정**: DynamicsProcessing은 채널별 독립 처리만, 타 앱 오디오 L+R 합산 API 없음, 시스템 "모노 오디오"는 WRITE_SECURE_SETTINGS 필요. 밸런스(채널별 입력 게인, 최대 24dB 감쇠)만 구현됨. 재조사 불필요.
 
 ## Key files & commands
-- **`~/keystores/soundfx-upload.jks`** — Play 업로드 키 (repo 밖!). 비밀번호는 같은 폴더 `soundfx-upload-credentials.txt` + `android/local.properties`의 `RELEASE_*` 3개 (gitignore라 새 클론엔 없음 — credentials.txt에서 복원). **분실 시 Play 업데이트 불가.**
-- Play 빌드: `cd android && ./gradlew test bundleRelease` → `app/build/outputs/bundle/release/app-release.aab`.
-- iOS 빌드: `xcodebuild archive -project safari/SoundFx/SoundFx.xcodeproj -scheme "SoundFx (iOS)" ...` + `build/ExportOptions.plist`(수동 서명, 프로파일명 "SoundFx App Store"/"SoundFx Extension App Store"). 다음 릴리스는 ship 스킬 절차로 버전 bump.
-- Chrome zip 재생성: `cd extension && zip -r SoundFx-<ver>.zip manifest.json *.js popup.html icons` (tests 제외).
-- 스토어 자산: 아이콘 `extension/icons/icon128.png`, iPhone 6.7" 스크린샷은 `goal2/screenshots/` 1206×2622를 1290×2796로 리사이즈해 사용했음. iPad는 레터박스 버전 (심사 지적 시 실캡처 필요).
-- PRIVACY.md — 스토어 공용 개인정보 정책 URL: `https://github.com/dleess/SoundFx/blob/main/PRIVACY.md`.
-
-## Decision log
-- **2026-08-11 — Android K-가중 LUFS 측정 도입 보류.** extension은 리뷰 후속으로 진짜 BS.1770 K-가중 momentary LUFS를 구현했지만(커밋 `c552724`), Android는 현행 "정적 게인(가정 -20dBFS) + MBC" 유지. 사유: ① 타 앱 오디오 측정은 Visualizer(=`RECORD_AUDIO` 권한, 8-bit 스냅샷이라 정직한 LUFS 불가) 또는 AudioPlaybackCapture(매번 동의 다이얼로그, 앱별 캡처 거부)뿐 — 둘 다 대가가 큼. ② 비공개 테스트 진행 중 민감 권한 추가는 Play 설문(11/11 완료)·심사를 다시 건드림. ③ 적응적 레벨링은 MBC가 이미 수행, 이득은 정적 inputGain 정확도뿐. **재검토 조건**: 프로덕션 출시 후 "조용한 앱이 안 커진다" 실사용 피드백이 오면 — 그때는 Visualizer `MEASUREMENT_MODE_PEAK_RMS` 기반 옵트인 "자동 레벨 보정"(LUFS 명칭 금지)으로. 상세 근거는 이 결정 직전 세션 대화 참조.
-- **2026-08-11 — extension 리뷰 결함 8건 수정 커밋됨(`c552724`), 스토어 재배포는 보류.** storage.sync 디바운스, chain 누수(WeakRef), 문서당 AudioContext 1개, resume(), BS.1770 LUFS, 소프트 클립, defaults UI·바이패스 배지, 테스트 79건. **현재 3개 스토어에 제출된 빌드는 이 수정 이전 코드** — Play 14일 테스트 흐름을 건드리지 않기 위한 의도적 보류. 다음 배포 사이클에 포함할 것.
+- `extension/` — Chrome+iOS 공용 소스. 설정 계약: `{enabled, targetLufs, comp{...}, eq{...}, pan(-1..1), mono(bool)}` (`settings-logic.js`). 체인: EQ→Comp→Worklet→Gain(모노 다운믹스 겸용)→StereoPanner(explicit/2ch)→dest (`content.js`). 우회 배선은 `setBypassed()`, 감시 상태는 `chain.monitor`(null/'running'/'done') 단일 필드.
+- `android/app/src/main/java/com/donghan/sound/` — `EffectParams.channelGainDb()`가 밸런스 매핑, `EffectEngine.apply()`는 채널별 runCatching. `SoundService.onCreate`가 DataStore에서 설정 복원(restoreJob, 인텐트 도착 시 cancel).
+- extension 테스트: `cd extension && node --test tests/*.test.js` → 36 pass.
+- Android 테스트/빌드: `export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=$HOME/Library/Android/sdk && cd android && ./gradlew test bundleRelease`. 릴리스 서명: `~/keystores/soundfx-upload.jks` + `android/local.properties`의 RELEASE_* 3개 (비밀번호는 `~/keystores/soundfx-upload-credentials.txt`).
+- Chrome 업데이트 zip: `cd extension && zip -r SoundFx-<ver>.zip manifest.json *.js popup.html icons` (tests/package.json 제외). manifest version bump 필수 (현재 0.1.0).
+- iOS 릴리스: ship 스킬 절차 (버전 bump→archive→ASC 업로드). Safari manifest description 112자 제한 유지.
 
 ## Next steps
-1. **Chrome/iOS 심사 결과 대응** (각 며칠). 리젝 시 이 문서의 제출 파이프라인 재사용.
-2. **Play 심사 통과 후**: closed 테스트 opt-in 링크(Alpha 트랙 Testers 탭)를 공유해 테스터 12명 모집 → 14일 뒤 대시보드에서 "Apply for production" 신청 (신청 시 closed 테스트 관련 설문 있음 — "Preview questions" 참조).
-3. **Play 프로덕션 경로**: 테스터 12명 모아 비공개 테스트 14일 → 대시보드에서 프로덕션 액세스 신청.
-4. **실기기 검증**: 폰에서 Play Console → Internal testing → Testers 탭 opt-in 링크로 설치 → YouTube 재생 → `adb logcat -s SoundFx`에서 `broadcast session=` 확인. session 0 폴백 동작 여부가 핵심 리스크.
-5. (선택) macOS Safari 확장 App Store 제출, Firefox AMO 제출.
+1. **`git push`** (로컬 `4781f8f`가 origin에 없음 — 사용자 확인 후).
+2. **Play 테스터 모집이 병목**: 11명 더 필요. 지인 Gmail 주소를 받아 Play Console→Closed testing Alpha→Testers 탭의 이메일 리스트에 추가 후 opt-in 링크 공유. 12명 모이면 14일 카운트다운 시작 — 그 후 "Apply for production".
+3. iOS 심사 결과 대기 (통지: kbsi.bionmr@gmail.com). 리젝 시 기존 제출 파이프라인 재사용.
+4. **다음 배포 사이클** (iOS 심사 통과 + Play 14일 완료 후): `4acb387`+`4781f8f`를 묶어 Chrome 0.2.0 zip(사용자 업로드), iOS v1.1(ship 스킬), Play v0.2.0(versionCode 2, bundleRelease→Console 업로드).
+5. 실기기 검증: 폰에서 opt-in 링크로 설치→YouTube 재생→`adb logcat -s SoundFx`에서 `broadcast session=` 확인. session 0 폴백 동작이 최대 리스크 (이전 세션부터 미확인).
 
 ## Open questions / risks
-- YouTube 앱 세션 브로드캐스트 실기기 미확인 (이전 세션부터 이어지는 최대 리스크).
-- iPad 스크린샷이 레터박스라 App Store 심사에서 지적 가능 — 그 경우 iPad 시뮬레이터 실캡처로 교체.
-- Play 앱명이 설문 미완으로 임시 표시 중 ("com.donghan.soundfx (unreviewed)").
-- Chrome 확장은 `<all_urls>`라 심사 장기화 가능성 고지받음 — 정상.
+- YouTube 앱 세션 브로드캐스트 실기기 미검증 (최대 리스크, 이전 세션부터 이어짐).
+- `POST_NOTIFICATIONS` 런타임 요청 없음 — Android 13+에서 권한 거부 시 FGS 알림이 안 보이고 앱 내 서비스 중지 수단도 없음 (버그 헌팅에서 발견, Play 정책 리스크로 기록만 하고 수정 보류 — 설문 재작업 회피).
+- 공개된 Chrome 빌드는 수정 전 코드 — 사용자 리뷰에 구버전 버그가 보고될 수 있음. 다음 사이클까지 감수하기로 함.
+- iPad 스크린샷 레터박스 — iOS 심사 지적 가능성 (기존 리스크 유지).
+- Play "1 tester opted-in"이 누구인지 미확인 (lee.donghan 본인일 가능성).
